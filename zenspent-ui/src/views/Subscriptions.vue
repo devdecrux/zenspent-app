@@ -1,8 +1,8 @@
 <script lang="ts">
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "Subscriptions"
+  name: 'Subscriptions',
 })
 </script>
 
@@ -10,6 +10,4 @@ export default defineComponent({
   <h1>Subscriptions</h1>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

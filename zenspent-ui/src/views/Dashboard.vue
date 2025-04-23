@@ -1,8 +1,8 @@
 <script lang="ts">
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "Dashboard"
+  name: 'Dashboard',
 })
 </script>
 
@@ -10,6 +10,4 @@ export default defineComponent({
   <h1>Dashboard</h1>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
