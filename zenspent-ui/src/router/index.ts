@@ -5,6 +5,7 @@ import Subscriptions from '@/views/Subscriptions.vue'
 import Settings from '@/views/Settings.vue'
 import Registration from "@/views/Registration.vue";
 import Login from "@/views/Login.vue";
+import NotFound from "@/views/NotFound.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: Login,
+    },
+    {
+      path: '/:catchAll(.*)*',
+      name: 'not-found',
+      component: NotFound
     }
   ],
 })

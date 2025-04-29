@@ -2,9 +2,12 @@
 import {RouterView, useRoute} from 'vue-router'
 import SideBar from '@/components/SideBar.vue'
 import NavBar from "@/components/NavBar.vue";
+import {computed} from "vue";
 
 const route = useRoute()
-const isLoginOrRegistration = route.fullPath === '/registration' || route.fullPath === '/login'
+const isLoginOrRegistration = computed(() => {
+  return route.fullPath === '/registration' || route.fullPath === '/login';
+});
 </script>
 
 <template>

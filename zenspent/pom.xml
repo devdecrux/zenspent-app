@@ -12,7 +12,7 @@
 	<artifactId>zenspent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ZenSpent</name>
-	<description>A simplistic easy to use app to track and improve your budget(s).</description>
+	<description>A simplistic easy-to-use app to track and improve your budget(s).</description>
 	<url/>
 	<licenses>
 		<license/>

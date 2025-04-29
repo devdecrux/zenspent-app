@@ -1,0 +1,34 @@
+name: zenspent-app
+
+services:
+  backend:
+    container_name: zenspent-backend
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    build:
+      context: zenspent
+      dockerfile: Dockerfile
+    networks:
+      - zenspent-network
+  db:
+    image: postgres:17.4-alpine3.21
+    container_name: zenspent-db
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: zenspent_user
+      POSTGRES_PASSWORD: zenspent_password
+      POSTGRES_DB: zenspent_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - zenspent-network
+
+networks:
+  zenspent-network:
+    driver: bridge
+
+volumes:
+  db-data:
