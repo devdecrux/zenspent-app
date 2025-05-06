@@ -1,14 +1,18 @@
-name: zenspent-app
+name: zenspent
 
 services:
   backend:
-    container_name: zenspent-backend
+    container_name: zenspent-app
     ports:
       - "8080:8080"
     restart: unless-stopped
     build:
-      context: zenspent
+      context: .
       dockerfile: Dockerfile
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/zenspent_db
+      DB_USERNAME: zenspent_user
+      DB_PASSWORD: zenspent_password
     networks:
       - zenspent-network
   db:

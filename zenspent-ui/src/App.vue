@@ -14,6 +14,6 @@ const isLoginOrRegistration = computed(() => {
   <NavBar/>
   <div class="lg:flex overflow-hidden">
     <SideBar v-if="!isLoginOrRegistration"/>
-    <RouterView class="dark:bg-slate-700 grow h-screen overflow-y-hidden lg:overflow-x-hidden" />
+    <RouterView class="bg-slate-700 grow h-screen overflow-y-hidden lg:overflow-x-hidden" />
   </div>
 </template>
