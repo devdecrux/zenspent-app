@@ -14,7 +14,7 @@ export default defineComponent({
 
       <ul class="mt-6 space-y-1">
         <RouterLink
-          to="/"
+          to="/dashboard"
           li
           class="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-gray-300"
         >
@@ -87,6 +87,8 @@ export default defineComponent({
         </RouterLink>
       </ul>
     </div>
+
+
 
     <div class="sticky inset-x-0 bottom-0 border-t border-gray-700">
       <a href="#" class="flex items-center gap-2 bg-gray-900 p-4">

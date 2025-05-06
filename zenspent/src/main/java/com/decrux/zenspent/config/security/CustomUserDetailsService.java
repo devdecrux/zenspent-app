@@ -1,7 +1,7 @@
 package com.decrux.zenspent.config.security;
 
-import com.decrux.zenspent.entities.security.CustomUserPrincipal;
 import com.decrux.zenspent.entities.security.User;
+import com.decrux.zenspent.entities.security.ZSUser;
 import com.decrux.zenspent.exceptions.UserNotFoundException;
 import com.decrux.zenspent.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (null == user) {
             throw new UserNotFoundException("User with email " + email + " not found");
         }
-        return new CustomUserPrincipal(user);
+        return new ZSUser(user);
     }
 
 }

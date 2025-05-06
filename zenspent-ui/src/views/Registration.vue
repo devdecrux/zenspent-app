@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <div id="registration-form" class="flex flex-col justify-center items-center min-h-screen space-y-2">
     <div id="email-input">
@@ -17,7 +13,7 @@
             </svg>
           </span>
 
-          <input type="email" placeholder="john@example.com"
+          <input v-model="email" type="email" placeholder="john@example.com"
                  class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
         </div>
       </div>
@@ -33,7 +29,7 @@
           </svg>
         </span>
 
-          <input type="email" placeholder="user"
+          <input v-model="username" type="email" placeholder="user"
                  class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
         </div>
       </div>
@@ -56,33 +52,52 @@
             </svg>
           </button>
 
-          <input type="password" placeholder="********"
+          <input v-model="password" type="password" placeholder="********"
                  class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-5 pr-11 rtl:pr-5 rtl:pl-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
         </div>
       </div>
     </div>
 
     <div id="login-button">
-      <a
-          class="inline-block rounded-full text-slate-400 bg-slate-900 p-3 hover:bg-slate-800 focus:ring-3 focus:outline-hidden"
-          href="#"
-      >
-
-        <svg
-            class="size-5 shadow-sm rtl:rotate-180"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-        >
-          <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M14 5l7 7m0 0l-7 7m7-7H3"
-          />
+      <button v-on:click="register" class="inline-block rounded-full text-slate-400 bg-slate-900 p-3 hover:bg-slate-800 focus:ring-3 focus:outline-hidden">
+        <svg class="size-5 shadow-sm rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
         </svg>
-      </a>
+      </button>
     </div>
+
   </div>
 </template>
+
+<script setup lang="ts">
+
+import {ref} from 'vue'
+import axios from 'axios'
+import router from "@/router/index.js";
+
+const username = ref('')
+const password = ref('')
+const email = ref('')
+let isAlert = ref(false);
+
+const register = () => {
+  axios.defaults.withXSRFToken = true;
+  axios.defaults.withCredentials = true;
+  axios.post('/api/v1/user/register', {
+    username: username.value,
+    password: password.value,
+    email: email.value
+  }, {
+    headers: {'Content-Type': 'application/json'}
+  }).then(response => {
+    if (response.status === 200) {
+      router.push("/login")
+    }
+  }).catch(error => {
+    if (error.status === 400 || error.status === 500) {
+      isAlert.value = true;
+    }
+  })
+}
+
+</script>
