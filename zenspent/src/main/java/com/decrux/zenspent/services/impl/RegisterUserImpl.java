@@ -1,8 +1,8 @@
 package com.decrux.zenspent.services.impl;
 
+import com.decrux.zenspent.entities.auth.ZSUser;
+import com.decrux.zenspent.entities.auth.ZSUserRole;
 import com.decrux.zenspent.entities.dtos.RegisterUserDTO;
-import com.decrux.zenspent.entities.security.User;
-import com.decrux.zenspent.entities.security.UserRole;
 import com.decrux.zenspent.repositories.UserRepository;
 import com.decrux.zenspent.services.RegisterUser;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +24,12 @@ public class RegisterUserImpl implements RegisterUser {
     @Override
     @Transactional
     public void registerUser(RegisterUserDTO userDTO) {
-        User user = new User();
-        user.setUsername(userDTO.username());
-        user.setPassword(this.passwordEncoder.encode(userDTO.password()));
-        user.setEmail(userDTO.email());
+        ZSUser user = new ZSUser();
+        user.setUsername(userDTO.username().trim());
+        user.setPassword(this.passwordEncoder.encode(userDTO.password().trim()));
+        user.setEmail(userDTO.email().trim());
 
-        UserRole role = new UserRole();
+        ZSUserRole role = new ZSUserRole();
         role.setRole(ROLE_USER);
         user.setRoles(List.of(role));
 

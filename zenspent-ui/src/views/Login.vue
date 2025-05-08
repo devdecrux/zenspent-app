@@ -59,10 +59,13 @@
 import {ref} from 'vue'
 import axios from 'axios'
 import router from "@/router/index.js";
+import {useUserStore} from "@/stores/user.ts";
 
 const email = ref('')
 const password = ref('')
 let isAlert = ref(false);
+
+const userStore = useUserStore();
 
 const login = () => {
   axios.defaults.withXSRFToken = true;
@@ -74,12 +77,28 @@ const login = () => {
     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
   }).then(response => {
     if (response.status === 200) {
-      router.push("/dashboard")
+      loadUserData();
     }
   }).catch(error => {
     if (error.status === 400) {
       isAlert.value = true;
     }
+  })
+}
+
+const loadUserData = () => {
+  axios.defaults.withXSRFToken = true;
+  axios.defaults.withCredentials = true;
+  axios.get('/api/v1/user')
+      .then(response => {
+        if (response.status === 200) {
+          userStore.setUser(response.data);
+          router.push("/dashboard")
+        }
+      }).catch(error => {
+        if (error.status === 400) {
+          isAlert.value = true;
+        }
   })
 }
 </script>

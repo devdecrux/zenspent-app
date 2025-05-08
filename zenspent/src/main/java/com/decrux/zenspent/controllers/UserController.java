@@ -1,15 +1,12 @@
 package com.decrux.zenspent.controllers;
 
+import com.decrux.zenspent.entities.auth.ZSUser;
 import com.decrux.zenspent.entities.dtos.RegisterUserDTO;
-import com.decrux.zenspent.entities.security.ZSUser;
+import com.decrux.zenspent.entities.dtos.ZSUserDTO;
 import com.decrux.zenspent.services.RegisterUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -24,10 +21,13 @@ public class UserController {
     }
 
     @GetMapping
-    public Object retrieveUserData(@AuthenticationPrincipal Principal principal) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        ZSUser authenticatedUser = (ZSUser) auth.getPrincipal();
-        return authenticatedUser;
+    public ZSUserDTO retrieveUserData(@AuthenticationPrincipal ZSUser user) {
+        return ZSUserDTO.builder()
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .build();
     }
 
 }

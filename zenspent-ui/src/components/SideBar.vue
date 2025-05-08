@@ -1,11 +1,3 @@
-<script lang="ts">
-import {defineComponent} from 'vue'
-
-export default defineComponent({
-  name: 'SideBar',
-})
-</script>
-
 <template>
   <div class="hidden lg:flex w-64 h-screen flex-col justify-between border-e border-gray-600 bg-gray-900">
     <div class="px-4 py-6">
@@ -100,9 +92,9 @@ export default defineComponent({
 
         <div>
           <p class="text-xs text-gray-300">
-            <strong class="block font-medium">Milen Valchev</strong>
+            <strong class="block font-medium">{{userStore.user?.firstName + " " + userStore.user?.lastName}}</strong>
 
-            <span>milen.ovalchev@gmail.com</span>
+            <span>{{ userStore.user?.email }}</span>
           </p>
         </div>
       </a>
@@ -110,4 +102,9 @@ export default defineComponent({
   </div>
 </template>
 
-<style scoped></style>
+<script setup lang="ts">
+import {useUserStore} from "@/stores/user.ts";
+
+const userStore = useUserStore();
+
+</script>

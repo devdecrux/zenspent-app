@@ -1,7 +1,6 @@
 package com.decrux.zenspent.config.security;
 
-import com.decrux.zenspent.entities.security.User;
-import com.decrux.zenspent.entities.security.ZSUser;
+import com.decrux.zenspent.entities.auth.ZSUser;
 import com.decrux.zenspent.exceptions.UserNotFoundException;
 import com.decrux.zenspent.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +19,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = this.userRepository.findUserByEmail(email);
+        ZSUser user = this.userRepository.findUserByEmail(email);
         if (null == user) {
             throw new UserNotFoundException("User with email " + email + " not found");
         }
-        return new ZSUser(user);
+        return user;
     }
 
 }

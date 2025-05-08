@@ -1,4 +1,4 @@
-package com.decrux.zenspent.entities.security;
+package com.decrux.zenspent.entities.auth;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "user_roles")
-public class UserRole {
+@Table(name = "zs_user_roles")
+public class ZSUserRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

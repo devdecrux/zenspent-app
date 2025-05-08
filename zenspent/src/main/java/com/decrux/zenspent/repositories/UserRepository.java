@@ -1,14 +1,14 @@
 package com.decrux.zenspent.repositories;
 
-import com.decrux.zenspent.entities.security.User;
+import com.decrux.zenspent.entities.auth.ZSUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<ZSUser, Long> {
 
-    @Query("SELECT u FROM User u JOIN FETCH u.roles WHERE u.email = :email")
-    User findUserByEmail(String email);
+    @Query("SELECT u FROM ZSUser u JOIN FETCH u.roles WHERE u.email = :email")
+    ZSUser findUserByEmail(String email);
 
 }

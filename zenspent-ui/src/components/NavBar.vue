@@ -1,16 +1,3 @@
-<script lang="ts">
-import {defineComponent} from 'vue'
-
-export default defineComponent({
-  name: 'NavBar',
-  data() {
-    return {
-      isOpen: false,
-    }
-  },
-})
-</script>
-
 <template>
   <nav class="lg:hidden bg-white shadow dark:bg-gray-900">
     <div class="px-6 py-4 mx-auto">
@@ -39,6 +26,14 @@ export default defineComponent({
             <RouterLink to="/transactions" class="mt-2 transition-colors duration-300 transform lg:mt-0 lg:mx-4 hover:text-gray-800 dark:hover:text-gray-200" @click="isOpen = false">Transactions</RouterLink>
             <RouterLink to="/subscriptions" class="mt-2 transition-colors duration-300 transform lg:mt-0 lg:mx-4 hover:text-gray-800 dark:hover:text-gray-200" @click="isOpen = false">Subscriptions</RouterLink>
             <RouterLink to="/settings" class="mt-2 transition-colors duration-300 transform lg:mt-0 lg:mx-4 hover:text-gray-800 dark:hover:text-gray-200" @click="isOpen = false">Settings</RouterLink>
+          </div>
+
+          <div class="flex items-center mt-4 lg:mt-0">
+              <div class="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" class="object-cover w-full h-full" alt="avatar">
+              </div>
+
+              <h3 class="mx-2 text-gray-700 dark:text-gray-200 lg:hidden">{{userStore.user?.firstName + " " + userStore.user?.lastName}}</h3>
           </div>
 
           <div class="flex justify-center mt-6 lg:flex lg:mt-0 lg:-mx-2">
@@ -73,3 +68,13 @@ export default defineComponent({
     </div>
   </nav>
 </template>
+
+<script setup lang="ts">
+import {ref} from 'vue';
+import {useUserStore} from "@/stores/user.ts";
+
+const userStore = useUserStore();
+
+let isOpen = ref(false);
+
+</script>
