@@ -9,5 +9,6 @@ public record TransactionDTO(Long transactionId,
                              BigDecimal amount,
                              String category,
                              String description,
+                             String date,
                              ZSUserDTO user,
                              Long assetsAccountId) { }

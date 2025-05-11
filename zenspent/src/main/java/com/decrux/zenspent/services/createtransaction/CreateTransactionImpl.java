@@ -67,6 +67,7 @@ public class CreateTransactionImpl implements CreateTransaction {
                 savedTransaction.getAmount(),
                 savedTransaction.getCategory(),
                 savedTransaction.getDescription(),
+                savedTransaction.getDate().toString(),
                 zsUserDTO,
                 Optional.ofNullable(savedTransaction.getAssetsAccount()).map(AssetsAccount::getAssetsAccountId).orElse(null)
         );

@@ -18,6 +18,7 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
+    @Enumerated(EnumType.STRING)
     private TransactionTypes type;
     private BigDecimal amount;
     private LocalDate date;

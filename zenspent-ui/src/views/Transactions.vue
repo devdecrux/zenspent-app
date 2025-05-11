@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
 
   <div>
@@ -24,36 +20,29 @@
 
         <tbody class="divide-y divide-gray-600 ltr:text-right rtl:text-right">
 
-        <tr class="text-gray-300 bg-gray-800">
-          <td class="px-3 py-2 whitespace-nowrap">Doychin returning money for cinema</td>
-          <td class="px-3 py-2 whitespace-nowrap text-emerald-600">+32€</td>
-          <td class="px-3 py-2 whitespace-nowrap">Income</td>
-          <td class="px-3 py-2 whitespace-nowrap">27-04-2025</td>
+        <tr v-for="transaction in transactions" class="text-gray-300 bg-gray-800">
           <td class="px-3 py-2 whitespace-nowrap">
-            <div class="flex justify-end items-center gap-2">
-              <span class="text-gray-300">Milen Valchev</span>
-              <img
-                  alt=""
-                  src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                  class="size-10 rounded-full object-cover"
-              />
-            </div>
+            {{transaction.description}}
           </td>
-        </tr>
-
-        <tr class="text-gray-300 bg-gray-800">
-          <td class="px-3 py-2 whitespace-nowrap">Groceries shopping</td>
-          <td class="px-3 py-2 whitespace-nowrap text-red-600">-100€</td>
-          <td class="px-3 py-2 whitespace-nowrap">Groceries</td>
-          <td class="px-3 py-2 whitespace-nowrap">27-04-2025</td>
+          <td class="px-3 py-2 whitespace-nowrap text-emerald-600" :class="transaction.type === 'WITHDRAWAL' ? 'text-red-600' : 'text-emerald-600'">
+            {{transaction.amount}}BGN
+          </td>
+          <td class="px-3 py-2 whitespace-nowrap">
+            {{transaction.category}}
+          </td>
+          <td class="px-3 py-2 whitespace-nowrap">
+            {{transaction.date}}
+          </td>
           <td class="px-3 py-2 whitespace-nowrap">
             <div class="flex justify-end items-center gap-2">
-              <span class="text-gray-300">Pamela Valcheva</span>
-              <img
-                  alt=""
-                  src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                  class="size-10 rounded-full object-cover"
-              />
+              <span class="text-gray-300">
+                {{transaction.user?.firstName + " " + transaction.user?.lastName}}
+              </span>
+<!--              <img-->
+<!--                  alt=""-->
+<!--                  src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"-->
+<!--                  class="size-10 rounded-full object-cover"-->
+<!--              />-->
             </div>
           </td>
         </tr>
@@ -128,3 +117,34 @@
   </div>
 
 </template>
+
+<script setup lang="ts">
+
+import {onMounted, ref} from "vue";
+import type {Transaction} from "@/entities/Transaction.ts";
+import axios from "axios";
+
+let isAlert = ref(false);
+
+const transactions = ref<Transaction[]>([]);
+
+const loadTransactions = () => {
+  axios.defaults.withXSRFToken = true;
+  axios.defaults.withCredentials = true;
+  axios.get('/api/v1/transactions')
+      .then(response => {
+        if (response.status === 200) {
+          transactions.value = response.data;
+        }
+      }).catch(error => {
+    if (error.status === 400) {
+      isAlert.value = true;
+    }
+  })
+}
+
+onMounted(() => {
+  loadTransactions();
+})
+
+</script>

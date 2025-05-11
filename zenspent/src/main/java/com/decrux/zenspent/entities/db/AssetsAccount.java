@@ -21,6 +21,7 @@ public class AssetsAccount {
     private Long assetsAccountId;
     private String name;
     private BigDecimal balance;
+    @Enumerated(EnumType.STRING)
     private AssetsAccountTypes type;
     private String description;
     private LocalDate createdAt;
