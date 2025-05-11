@@ -13,14 +13,14 @@
             </svg>
           </span>
 
-          <input v-model="email" type="email" placeholder="john@example.com"
+          <input v-on:keyup.enter="register" v-model="email" type="email" placeholder="john@example.com"
                  class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
         </div>
       </div>
     </div>
     <div id="username-input">
       <div>
-        <label for="email" class="block text-sm text-gray-500 dark:text-gray-300">Username</label>
+        <label for="username-input" class="block text-sm text-gray-500 dark:text-gray-300">Username</label>
 
         <div class="relative flex items-center mt-2">
         <span class="absolute">
@@ -29,7 +29,41 @@
           </svg>
         </span>
 
-          <input v-model="username" type="email" placeholder="user"
+          <input v-on:keyup.enter="register" v-model="username" type="text" placeholder="user"
+                 class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
+        </div>
+      </div>
+    </div>
+
+    <div id="firstName">
+      <div>
+        <label for="firstName" class="block text-sm text-gray-500 dark:text-gray-300">First Name</label>
+
+        <div class="relative flex items-center mt-2">
+        <span class="absolute">
+          <svg xmlns="http://www.w3.org/2000/svg" height="1em" fill="currentColor" viewBox="0 0 512 512" class="w-6 h-6 mx-3 text-gray-400 dark:text-gray-500">
+            <path d="M 352 128 Q 352 102 339 80 L 339 80 L 339 80 Q 326 58 304 45 Q 281 32 256 32 Q 231 32 208 45 Q 186 58 173 80 Q 160 102 160 128 Q 160 154 173 176 Q 186 198 208 211 Q 231 224 256 224 Q 281 224 304 211 Q 326 198 339 176 Q 352 154 352 128 L 352 128 Z M 128 128 Q 128 93 145 64 L 145 64 L 145 64 Q 162 35 192 17 Q 222 0 256 0 Q 290 0 320 17 Q 350 35 367 64 Q 384 93 384 128 Q 384 163 367 192 Q 350 221 320 239 Q 290 256 256 256 Q 222 256 192 239 Q 162 221 145 192 Q 128 163 128 128 L 128 128 Z M 64 480 L 448 480 L 64 480 L 448 480 Q 446 419 404 378 Q 363 338 302 336 L 210 336 L 210 336 Q 149 338 108 378 Q 66 419 64 480 L 64 480 Z M 32 482 Q 34 407 84 356 L 84 356 L 84 356 Q 135 306 210 304 L 302 304 L 302 304 Q 377 306 428 356 Q 478 407 480 482 Q 480 495 471 503 Q 463 512 450 512 L 62 512 L 62 512 Q 49 512 41 503 Q 32 495 32 482 L 32 482 Z" />
+          </svg>
+        </span>
+
+          <input v-on:keyup.enter="register" v-model="firstName" type="text" placeholder="John"
+                 class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
+        </div>
+      </div>
+    </div>
+
+    <div id="lastName">
+      <div>
+        <label for="lastName" class="block text-sm text-gray-500 dark:text-gray-300">Last Name</label>
+
+        <div class="relative flex items-center mt-2">
+        <span class="absolute">
+          <svg xmlns="http://www.w3.org/2000/svg" height="1em" fill="currentColor" viewBox="0 0 512 512" class="w-6 h-6 mx-3 text-gray-400 dark:text-gray-500">
+            <path d="M 352 128 Q 352 102 339 80 L 339 80 L 339 80 Q 326 58 304 45 Q 281 32 256 32 Q 231 32 208 45 Q 186 58 173 80 Q 160 102 160 128 Q 160 154 173 176 Q 186 198 208 211 Q 231 224 256 224 Q 281 224 304 211 Q 326 198 339 176 Q 352 154 352 128 L 352 128 Z M 128 128 Q 128 93 145 64 L 145 64 L 145 64 Q 162 35 192 17 Q 222 0 256 0 Q 290 0 320 17 Q 350 35 367 64 Q 384 93 384 128 Q 384 163 367 192 Q 350 221 320 239 Q 290 256 256 256 Q 222 256 192 239 Q 162 221 145 192 Q 128 163 128 128 L 128 128 Z M 64 480 L 448 480 L 64 480 L 448 480 Q 446 419 404 378 Q 363 338 302 336 L 210 336 L 210 336 Q 149 338 108 378 Q 66 419 64 480 L 64 480 Z M 32 482 Q 34 407 84 356 L 84 356 L 84 356 Q 135 306 210 304 L 302 304 L 302 304 Q 377 306 428 356 Q 478 407 480 482 Q 480 495 471 503 Q 463 512 450 512 L 62 512 L 62 512 Q 49 512 41 503 Q 32 495 32 482 L 32 482 Z" />
+          </svg>
+        </span>
+
+          <input v-on:keyup.enter="register" v-model="lastName" type="text" placeholder="Doe"
                  class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
         </div>
       </div>
@@ -52,7 +86,7 @@
             </svg>
           </button>
 
-          <input v-model="password" type="password" placeholder="********"
+          <input v-on:keyup.enter="register" v-model="password" type="password" placeholder="********"
                  class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-5 pr-11 rtl:pr-5 rtl:pl-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
         </div>
       </div>
@@ -76,6 +110,8 @@ import axios from 'axios'
 import router from "@/router/index.js";
 
 const username = ref('')
+const firstName = ref('')
+const lastName = ref('')
 const password = ref('')
 const email = ref('')
 let isAlert = ref(false);
@@ -86,7 +122,9 @@ const register = () => {
   axios.post('/api/v1/user/register', {
     username: username.value,
     password: password.value,
-    email: email.value
+    email: email.value,
+    firstName: firstName.value,
+    lastName: lastName.value
   }, {
     headers: {'Content-Type': 'application/json'}
   }).then(response => {

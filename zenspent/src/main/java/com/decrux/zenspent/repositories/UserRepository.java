@@ -1,6 +1,6 @@
 package com.decrux.zenspent.repositories;
 
-import com.decrux.zenspent.entities.auth.ZSUser;
+import com.decrux.zenspent.entities.db.auth.ZSUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

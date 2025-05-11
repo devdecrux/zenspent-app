@@ -1,5 +1,7 @@
-package com.decrux.zenspent.entities.auth;
+package com.decrux.zenspent.entities.db.auth;
 
+import com.decrux.zenspent.entities.db.AssetsAccount;
+import com.decrux.zenspent.entities.db.Transaction;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +23,7 @@ public class ZSUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
     private String username;
     private String password;
     private String email;
@@ -30,6 +32,10 @@ public class ZSUser implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<ZSUserRole> roles;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Transaction> transactions;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<AssetsAccount> assetsAccounts;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,4 +1,4 @@
-package com.decrux.zenspent.entities.auth;
+package com.decrux.zenspent.entities.db.auth;
 
 import jakarta.persistence.*;
 import lombok.Getter;

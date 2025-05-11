@@ -1,9 +1,9 @@
 package com.decrux.zenspent.controllers;
 
-import com.decrux.zenspent.entities.auth.ZSUser;
+import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.dtos.RegisterUserDTO;
 import com.decrux.zenspent.entities.dtos.ZSUserDTO;
-import com.decrux.zenspent.services.RegisterUser;
+import com.decrux.zenspent.services.userregistration.RegisterUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;

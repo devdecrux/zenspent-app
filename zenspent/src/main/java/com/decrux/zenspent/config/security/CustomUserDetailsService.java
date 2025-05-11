@@ -1,6 +1,6 @@
 package com.decrux.zenspent.config.security;
 
-import com.decrux.zenspent.entities.auth.ZSUser;
+import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.exceptions.UserNotFoundException;
 import com.decrux.zenspent.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
