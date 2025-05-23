@@ -14,11 +14,11 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "zs_assets_accounts")
-public class AssetsAccount {
+public class AssetAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long assetsAccountId;
+    private Long assetAccountId;
     private String name;
     private BigDecimal balance;
     @Enumerated(EnumType.STRING)
@@ -28,7 +28,7 @@ public class AssetsAccount {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private ZSUser user;
-    @OneToMany(mappedBy = "assetsAccount", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sourceAssetAccount", cascade = CascadeType.ALL)
     private List<Transaction> transaction;
 
 }

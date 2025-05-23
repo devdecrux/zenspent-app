@@ -1,6 +1,6 @@
 package com.decrux.zenspent.services.createassetsaccount;
 
-import com.decrux.zenspent.entities.db.AssetsAccount;
+import com.decrux.zenspent.entities.db.AssetAccount;
 import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.dtos.AssetsAccountDTO;
 import com.decrux.zenspent.repositories.AssetsAccountRepository;
@@ -16,22 +16,22 @@ public class CreateAssetsAccountImpl implements CreateAssetsAccount {
     private final AssetsAccountRepository assetsAccountRepository;
 
     public AssetsAccountDTO createAssetsAccount(AssetsAccountDTO assetsAccountDTO, ZSUser user) {
-        AssetsAccount assetsAccount = new AssetsAccount();
-        assetsAccount.setName(assetsAccountDTO.name());
-        assetsAccount.setBalance(assetsAccountDTO.balance());
-        assetsAccount.setType(assetsAccountDTO.type());
-        assetsAccount.setDescription(assetsAccountDTO.description());
-        assetsAccount.setCreatedAt(LocalDate.now());
-        assetsAccount.setUser(user);
+        AssetAccount assetAccount = new AssetAccount();
+        assetAccount.setName(assetsAccountDTO.name());
+        assetAccount.setBalance(assetsAccountDTO.balance());
+        assetAccount.setType(assetsAccountDTO.type());
+        assetAccount.setDescription(assetsAccountDTO.description());
+        assetAccount.setCreatedAt(LocalDate.now());
+        assetAccount.setUser(user);
 
-        AssetsAccount savedAssetsAccount = this.assetsAccountRepository.save(assetsAccount);
+        AssetAccount savedAssetAccount = this.assetsAccountRepository.save(assetAccount);
 
         return new AssetsAccountDTO(
-                savedAssetsAccount.getAssetsAccountId(),
-                savedAssetsAccount.getName(),
-                savedAssetsAccount.getBalance(),
-                savedAssetsAccount.getType(),
-                savedAssetsAccount.getDescription()
+                savedAssetAccount.getAssetAccountId(),
+                savedAssetAccount.getName(),
+                savedAssetAccount.getBalance(),
+                savedAssetAccount.getType(),
+                savedAssetAccount.getDescription()
         );
     }
 

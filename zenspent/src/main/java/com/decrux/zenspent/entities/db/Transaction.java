@@ -23,12 +23,13 @@ public class Transaction {
     private BigDecimal amount;
     private LocalDate date;
     private String category;
-    private String description;
+    private String recipientName;
+    private Long recipientAssetAccountId;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private ZSUser user;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "assets_account_id")
-    private AssetsAccount assetsAccount;
+    @JoinColumn(name = "source_asset_account_id")
+    private AssetAccount sourceAssetAccount;
 
 }

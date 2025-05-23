@@ -1,6 +1,6 @@
 package com.decrux.zenspent.entities.db.auth;
 
-import com.decrux.zenspent.entities.db.AssetsAccount;
+import com.decrux.zenspent.entities.db.AssetAccount;
 import com.decrux.zenspent.entities.db.Transaction;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -35,7 +35,7 @@ public class ZSUser implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<AssetsAccount> assetsAccounts;
+    private List<AssetAccount> assetAccounts;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
