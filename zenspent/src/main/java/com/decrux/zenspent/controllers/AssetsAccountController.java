@@ -1,7 +1,7 @@
 package com.decrux.zenspent.controllers;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
-import com.decrux.zenspent.entities.dtos.AssetsAccountDTO;
+import com.decrux.zenspent.entities.dtos.AssetAccountDto;
 import com.decrux.zenspent.services.createassetsaccount.CreateAssetsAccount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,8 +18,8 @@ public class AssetsAccountController {
     private final CreateAssetsAccount createAssetsAccount;
 
     @PostMapping
-    public AssetsAccountDTO createAssetsAccount(@RequestBody AssetsAccountDTO assetsAccountDTO, @AuthenticationPrincipal ZSUser user) {
-        return this.createAssetsAccount.createAssetsAccount(assetsAccountDTO, user);
+    public AssetAccountDto createAssetsAccount(@RequestBody AssetAccountDto assetAccountDto, @AuthenticationPrincipal ZSUser user) {
+        return this.createAssetsAccount.createAssetsAccount(assetAccountDto, user);
     }
 
 }

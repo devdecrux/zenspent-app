@@ -25,11 +25,10 @@ public class Transaction {
     private String category;
     private String recipientName;
     private Long recipientAssetAccountId;
+    private String payerName;
+    private Long payerAssetAccountId;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private ZSUser user;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "source_asset_account_id")
-    private AssetAccount sourceAssetAccount;
 
 }

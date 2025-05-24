@@ -3,16 +3,15 @@ package com.decrux.zenspent.services.createtransaction;
 import com.decrux.zenspent.entities.db.AssetAccount;
 import com.decrux.zenspent.entities.db.Transaction;
 import com.decrux.zenspent.entities.db.auth.ZSUser;
-import com.decrux.zenspent.entities.dtos.AssetsAccountDTO;
-import com.decrux.zenspent.entities.dtos.RecipientDTO;
 import com.decrux.zenspent.entities.dtos.TransactionDTO;
+import com.decrux.zenspent.entities.dtos.TransactionParticipantDto;
 import com.decrux.zenspent.entities.dtos.ZSUserDTO;
 import com.decrux.zenspent.entities.enums.TransactionTypes;
 import com.decrux.zenspent.repositories.AssetsAccountRepository;
 import com.decrux.zenspent.repositories.TransactionRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -25,47 +24,36 @@ public class CreateTransactionImpl implements CreateTransaction {
     private final AssetsAccountRepository assetsAccountRepository;
     private final TransactionRepository transactionRepository;
 
+    @Override
     @Transactional
     public TransactionDTO createTransaction(TransactionDTO transactionDTO, ZSUser user) {
-        Transaction transaction = new Transaction();
-        transaction.setRecipientName(transactionDTO.recipient().name());
-        transaction.setRecipientAssetAccountId(transactionDTO.recipient().assetAccountId());
-        transaction.setType(transactionDTO.type());
-        transaction.setAmount(transactionDTO.amount());
-        transaction.setDate(LocalDate.now());
-        transaction.setCategory(transactionDTO.category());
-        transaction.setUser(user);
 
-        AssetAccount assetAccount = null;
-        if (transactionDTO.sourceAssetAccount().assetsAccountId() != null) {
-            Optional<AssetAccount> sourceAssetAccountOptional = this.assetsAccountRepository.findById(transactionDTO.sourceAssetAccount().assetsAccountId());
-            if (sourceAssetAccountOptional.isPresent()) {
-                assetAccount = sourceAssetAccountOptional.get();
-                transaction.setSourceAssetAccount(assetAccount);
+        AssetAccount recipentAssetAccount = null;
+        AssetAccount sourceAssetAccount = null;
+
+        if (transactionDTO.recipient().assetAccountId() != null) {
+            Optional<AssetAccount> recipientAssetAccountOptional = this.assetsAccountRepository.findById(transactionDTO.recipient().assetAccountId());
+            if (recipientAssetAccountOptional.isPresent()) {
+                recipentAssetAccount = recipientAssetAccountOptional.get();
             }
         }
 
-        Transaction savedTransaction = this.transactionRepository.save(transaction);
-
-        if (assetAccount != null) {
-            BigDecimal newSourceAccountBalance;
-            if (TransactionTypes.WITHDRAWAL.equals(savedTransaction.getType())) {
-                newSourceAccountBalance = assetAccount.getBalance().subtract(savedTransaction.getAmount());
-            } else if (TransactionTypes.TRANSFER.equals(savedTransaction.getType())) {
-                newSourceAccountBalance = assetAccount.getBalance().subtract(savedTransaction.getAmount());
-                Optional<AssetAccount> destinationAssetAccountOptional = this.assetsAccountRepository.findById(transactionDTO.recipient().assetAccountId());
-                if (destinationAssetAccountOptional.isPresent()) {
-                    AssetAccount destinationAssetAccount = destinationAssetAccountOptional.get();
-                    BigDecimal newDestinationAccountBalance = destinationAssetAccount.getBalance().add(savedTransaction.getAmount());
-                    destinationAssetAccount.setBalance(newDestinationAccountBalance);
-                    this.assetsAccountRepository.save(destinationAssetAccount);
-                }
-            } else {
-                newSourceAccountBalance = assetAccount.getBalance().add(savedTransaction.getAmount());
+        if (transactionDTO.payer().assetAccountId() != null) {
+            Optional<AssetAccount> sourceAssetAccountOptional = this.assetsAccountRepository.findById(transactionDTO.payer().assetAccountId());
+            if (sourceAssetAccountOptional.isPresent()) {
+                sourceAssetAccount = sourceAssetAccountOptional.get();
             }
+        }
 
-            assetAccount.setBalance(newSourceAccountBalance);
-            this.assetsAccountRepository.save(assetAccount);
+        Transaction savedTransaction;
+
+        switch (transactionDTO.type()) {
+            case TransactionTypes.WITHDRAWAL -> savedTransaction = createWithdrawalTransaction(transactionDTO, sourceAssetAccount, user);
+            case TransactionTypes.INCOME, TransactionTypes.SALARY, TransactionTypes.REFUND ->
+                    savedTransaction = createIncomeTransaction(transactionDTO, recipentAssetAccount, user);
+            case TransactionTypes.TRANSFER ->
+                    savedTransaction = createTransferTransaction(transactionDTO, recipentAssetAccount, sourceAssetAccount, user);
+            default -> throw new IllegalStateException("Unexpected transaction type: " + transactionDTO.type());
         }
 
         ZSUserDTO zsUserDTO = ZSUserDTO.builder()
@@ -77,19 +65,87 @@ public class CreateTransactionImpl implements CreateTransaction {
 
         return new TransactionDTO(
                 savedTransaction.getTransactionId(),
-                new RecipientDTO(savedTransaction.getRecipientName(), savedTransaction.getRecipientAssetAccountId()),
+                new TransactionParticipantDto(savedTransaction.getRecipientName(), savedTransaction.getRecipientAssetAccountId()),
                 savedTransaction.getType(),
                 savedTransaction.getAmount(),
                 savedTransaction.getCategory(),
                 savedTransaction.getDate().toString(),
                 zsUserDTO,
-                new AssetsAccountDTO(
-                        savedTransaction.getSourceAssetAccount().getAssetAccountId(),
-                        savedTransaction.getSourceAssetAccount().getName(),
-                        savedTransaction.getSourceAssetAccount().getBalance(),
-                        savedTransaction.getSourceAssetAccount().getType(),
-                        savedTransaction.getSourceAssetAccount().getDescription()
-                )
+                new TransactionParticipantDto(savedTransaction.getPayerName(), savedTransaction.getPayerAssetAccountId())
         );
     }
+
+    private Transaction createWithdrawalTransaction(TransactionDTO transactionDTO, AssetAccount sourceAssetAccount, ZSUser user) {
+        Transaction transaction = createBasicTransaction(transactionDTO, user);
+        transaction.setType(TransactionTypes.WITHDRAWAL);
+
+        transaction.setRecipientName(transactionDTO.recipient().name());
+
+        transaction.setPayerName(sourceAssetAccount.getName());
+        transaction.setPayerAssetAccountId(sourceAssetAccount.getAssetAccountId());
+
+        Transaction savedTransactions = this.transactionRepository.save(transaction);
+
+        BigDecimal newSourceAccountBalance = sourceAssetAccount.getBalance().subtract(savedTransactions.getAmount());
+        sourceAssetAccount.setBalance(newSourceAccountBalance);
+        this.assetsAccountRepository.save(sourceAssetAccount);
+
+        return savedTransactions;
+    }
+
+    private Transaction createIncomeTransaction(TransactionDTO transactionDTO, AssetAccount recipientAssetAccount, ZSUser user) {
+        Transaction transaction = createBasicTransaction(transactionDTO, user);
+        transaction.setType(transactionDTO.type());
+
+        System.out.println("recipientAssetAccount: " + recipientAssetAccount);
+        transaction.setRecipientName(recipientAssetAccount.getName());
+        transaction.setRecipientAssetAccountId(recipientAssetAccount.getAssetAccountId());
+
+        transaction.setPayerName(transactionDTO.payer().name());
+
+        Transaction savedTransactions = this.transactionRepository.save(transaction);
+
+        BigDecimal newRecipientAccountBalance = recipientAssetAccount.getBalance().add(savedTransactions.getAmount());
+        recipientAssetAccount.setBalance(newRecipientAccountBalance);
+        this.assetsAccountRepository.save(recipientAssetAccount);
+
+        return savedTransactions;
+    }
+
+    private Transaction createTransferTransaction(TransactionDTO transactionDTO, AssetAccount recipientAssetAccount, AssetAccount sourceAssetAccount, ZSUser user) {
+        Transaction transaction = createBasicTransaction(transactionDTO, user);
+        transaction.setType(TransactionTypes.TRANSFER);
+
+        transaction.setRecipientName(recipientAssetAccount.getName());
+        transaction.setRecipientAssetAccountId(recipientAssetAccount.getAssetAccountId());
+
+        transaction.setPayerName(sourceAssetAccount.getName());
+        transaction.setPayerAssetAccountId(sourceAssetAccount.getAssetAccountId());
+
+        Transaction savedTransactions = this.transactionRepository.save(transaction);
+
+        BigDecimal newSourceAccountBalance = sourceAssetAccount.getBalance().subtract(savedTransactions.getAmount());
+        sourceAssetAccount.setBalance(newSourceAccountBalance);
+        this.assetsAccountRepository.save(sourceAssetAccount);
+
+        BigDecimal newRecipientAccountBalance = recipientAssetAccount.getBalance().add(savedTransactions.getAmount());
+        recipientAssetAccount.setBalance(newRecipientAccountBalance);
+        this.assetsAccountRepository.save(recipientAssetAccount);
+
+        return savedTransactions;
+    }
+
+    private Transaction createBasicTransaction(TransactionDTO transactionDTO, ZSUser user) {
+        Transaction transaction = new Transaction();
+        transaction.setAmount(transactionDTO.amount());
+        if (transactionDTO.date() != null) {
+            transaction.setDate(LocalDate.parse(transactionDTO.date()));
+        } else {
+            transaction.setDate(LocalDate.now());
+        }
+        transaction.setCategory(transactionDTO.category());
+        transaction.setUser(user);
+        return transaction;
+    }
+
 }

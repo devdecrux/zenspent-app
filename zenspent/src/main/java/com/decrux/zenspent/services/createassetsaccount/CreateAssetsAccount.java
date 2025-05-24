@@ -1,10 +1,10 @@
 package com.decrux.zenspent.services.createassetsaccount;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
-import com.decrux.zenspent.entities.dtos.AssetsAccountDTO;
+import com.decrux.zenspent.entities.dtos.AssetAccountDto;
 
 public interface CreateAssetsAccount {
 
-    AssetsAccountDTO createAssetsAccount(AssetsAccountDTO assetsAccountDTO, ZSUser user);
+    AssetAccountDto createAssetsAccount(AssetAccountDto assetAccountDto, ZSUser user);
 
 }

@@ -2,9 +2,8 @@ package com.decrux.zenspent.services.gettransactions;
 
 import com.decrux.zenspent.entities.db.Transaction;
 import com.decrux.zenspent.entities.db.auth.ZSUser;
-import com.decrux.zenspent.entities.dtos.AssetsAccountDTO;
-import com.decrux.zenspent.entities.dtos.RecipientDTO;
 import com.decrux.zenspent.entities.dtos.TransactionDTO;
+import com.decrux.zenspent.entities.dtos.TransactionParticipantDto;
 import com.decrux.zenspent.entities.dtos.ZSUserDTO;
 import com.decrux.zenspent.repositories.TransactionRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ public class GetTransactionsImpl implements GetTransactions {
         return transactions.stream()
                 .map(transaction -> new TransactionDTO(
                         transaction.getTransactionId(),
-                        new RecipientDTO(transaction.getRecipientName(), transaction.getRecipientAssetAccountId()),
+                        new TransactionParticipantDto(transaction.getRecipientName(), transaction.getRecipientAssetAccountId()),
                         transaction.getType(),
                         transaction.getAmount(),
                         transaction.getCategory(),
@@ -34,13 +33,7 @@ public class GetTransactionsImpl implements GetTransactions {
                                 .firstName(transaction.getUser().getFirstName())
                                 .lastName(transaction.getUser().getLastName())
                                 .build(),
-                        new AssetsAccountDTO(
-                                transaction.getSourceAssetAccount().getAssetAccountId(),
-                                transaction.getSourceAssetAccount().getName(),
-                                transaction.getSourceAssetAccount().getBalance(),
-                                transaction.getSourceAssetAccount().getType(),
-                                transaction.getSourceAssetAccount().getDescription()
-                        )
+                        new TransactionParticipantDto(transaction.getPayerName(), transaction.getPayerAssetAccountId())
                 ))
                 .toList();
     }

@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter
@@ -28,7 +27,5 @@ public class AssetAccount {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private ZSUser user;
-    @OneToMany(mappedBy = "sourceAssetAccount", cascade = CascadeType.ALL)
-    private List<Transaction> transaction;
 
 }
