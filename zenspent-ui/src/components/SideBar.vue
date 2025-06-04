@@ -1,8 +1,9 @@
 <template>
-  <div class="hidden lg:flex w-64 h-screen flex-col justify-between border-e border-gray-600 bg-gray-900">
+  <div
+    class="hidden lg:flex w-64 h-screen flex-col justify-between border-e border-gray-600 bg-gray-900"
+  >
     <div class="px-4 py-6">
-
-      <img class="lg:w-1/2 lg:mx-auto" src="../assets/logo.png" alt="zenspent"/>
+      <img class="lg:w-1/2 lg:mx-auto" src="../assets/logo.png" alt="zenspent" />
 
       <ul class="mt-6 space-y-1">
         <RouterLink
@@ -80,8 +81,6 @@
       </ul>
     </div>
 
-
-
     <div class="sticky inset-x-0 bottom-0 border-t border-gray-700">
       <a href="#" class="flex items-center gap-2 bg-gray-900 p-4">
         <img
@@ -92,7 +91,9 @@
 
         <div>
           <p class="text-xs text-gray-300">
-            <strong class="block font-medium">{{userStore.user?.firstName + " " + userStore.user?.lastName}}</strong>
+            <strong class="block font-medium">{{
+              userStore.user?.firstName + ' ' + userStore.user?.lastName
+            }}</strong>
 
             <span>{{ userStore.user?.email }}</span>
           </p>
@@ -103,8 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import {useUserStore} from "@/stores/user.ts";
+import { useUserStore } from '@/stores/user.ts'
 
-const userStore = useUserStore();
-
+const userStore = useUserStore()
 </script>

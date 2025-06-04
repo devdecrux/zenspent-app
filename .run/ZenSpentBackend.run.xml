@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ZenSpentBackend" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="zenspent" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.decrux.zenspent.ZenSpentApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
