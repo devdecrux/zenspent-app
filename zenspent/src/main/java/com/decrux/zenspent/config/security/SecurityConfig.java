@@ -45,6 +45,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .userDetailsService(new CustomUserDetailsService(this.userRepository))
                 .logout(logout -> logout
+                        .logoutUrl(BACKEND_LOGOUT_PROCESSING_URL.getValue())
                         .clearAuthentication(true)
                         .invalidateHttpSession(true)
                         .logoutSuccessHandler(this.customLogoutSuccessHandler))

@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum Constants {
 
     BACKEND_LOGIN_PROCESSING_URL("/api/v1/user/login"),
+    BACKEND_LOGOUT_PROCESSING_URL("/api/v1/user/logout"),
     BACKEND_REGISTER_ENDPOINT("/api/v1/user/register"),
 
     FRONTEND_LOGIN_URL("/frontend/login"),

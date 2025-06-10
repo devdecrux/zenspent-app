@@ -7,7 +7,7 @@
 
       <ul class="mt-6 space-y-1">
         <RouterLink
-          to="/dashboard"
+          to="/"
           li
           class="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-gray-300"
         >
@@ -81,7 +81,7 @@
       </ul>
     </div>
 
-    <div class="sticky inset-x-0 bottom-0 border-t border-gray-700">
+    <div v-if="userStore.user != null" class="sticky inset-x-0 bottom-0 border-t border-gray-700">
       <a href="#" class="flex items-center gap-2 bg-gray-900 p-4">
         <img
           alt=""
@@ -99,12 +99,46 @@
           </p>
         </div>
       </a>
+
+      <div class="flex justify-center">
+        <button
+          v-on:click="logout"
+          class="mb-2 rounded-sm border border-red-600 bg-red-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent"
+        >
+          Logout
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user.ts'
+import axios from 'axios'
+import router from '@/router'
 
 const userStore = useUserStore()
+
+const logout = () => {
+  axios.defaults.withXSRFToken = true
+  axios.defaults.withCredentials = true
+  axios
+    .post(
+      '/api/v1/user/logout',
+      {},
+      {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      },
+    )
+    .then((response) => {
+      if (response.status === 200) {
+        userStore.clearUser()
+        router.push('/login')
+      }
+    })
+    .catch((error) => {
+      if (error.status === 400) {
+      }
+    })
+}
 </script>

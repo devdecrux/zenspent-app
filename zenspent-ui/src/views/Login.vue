@@ -144,7 +144,7 @@ const loadUserData = () => {
     .then((response) => {
       if (response.status === 200) {
         userStore.setUser(response.data)
-        router.push('/dashboard')
+        router.push('/')
       }
     })
     .catch((error) => {

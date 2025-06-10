@@ -1,12 +1,8 @@
 <script setup lang="ts">
 
-import {useRoute} from "vue-router";
+import { useRoute } from 'vue-router'
 </script>
 
 <template>
-  {{useRoute().params.assetAccountId}}
+  {{ useRoute().params.assetAccountId }}
 </template>
-
-<style scoped>
-
-</style>

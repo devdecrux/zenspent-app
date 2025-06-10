@@ -1,18 +1,19 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '@/views/Dashboard.vue'
 import Transactions from '@/views/Transactions.vue'
 import Subscriptions from '@/views/Subscriptions.vue'
 import Settings from '@/views/Settings.vue'
-import Registration from "@/views/Registration.vue";
-import Login from "@/views/Login.vue";
-import NotFound from "@/views/NotFound.vue";
-import AssetAccounts from "@/views/AssetAccounts.vue";
+import Registration from '@/views/Registration.vue'
+import Login from '@/views/Login.vue'
+import NotFound from '@/views/NotFound.vue'
+import AssetAccounts from '@/views/AssetAccounts.vue'
+import { useUserStore } from '@/stores/user.ts'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/dashboard',
+      path: '/',
       name: 'dashboard',
       component: Dashboard,
     },
@@ -49,9 +50,17 @@ const router = createRouter({
     {
       path: '/:catchAll(.*)*',
       name: 'not-found',
-      component: NotFound
-    }
+      component: NotFound,
+    },
   ],
+})
+
+router.beforeEach((to, from) => {
+  const userStore = useUserStore()
+  console.log(userStore.user)
+  if (userStore.user == null && to.name !== 'login' && to.name !== 'registration') {
+    return { name: 'login' }
+  }
 })
 
 export default router
