@@ -2,6 +2,7 @@
   <configuration default="false" name="zenspent external dependencies" type="docker-deploy" factoryName="docker-compose.yml" server-name="docker localhost">
     <deployment type="docker-compose.yml">
       <settings>
+        <option name="containerName" value="" />
         <option name="envFilePath" value="" />
         <option name="services">
           <list>

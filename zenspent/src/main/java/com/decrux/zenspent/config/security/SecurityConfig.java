@@ -42,6 +42,9 @@ public class SecurityConfig {
                         .requestMatchers(FRONTEND_LANDING_PAGE.getValue()).permitAll()
                         .requestMatchers(FRONTEND_REGISTER_URL.getValue()).permitAll()
                         .requestMatchers(BACKEND_REGISTER_ENDPOINT.getValue()).permitAll()
+                        // TODO set GET_CSRF_TOKEN_ENDPOINT only in development mode
+                        // TODO to avoid CSRF token exposure in production
+                        .requestMatchers(GET_CSRF_TOKEN_ENDPOINT.getValue()).permitAll()
                         .anyRequest().authenticated())
                 .userDetailsService(new CustomUserDetailsService(this.userRepository))
                 .logout(logout -> logout
