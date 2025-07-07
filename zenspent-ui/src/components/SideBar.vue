@@ -99,7 +99,7 @@
           </p>
         </div>
       </a>
-
+      <!-- TODO: add logout button to NavBar also -->
       <div class="flex justify-center">
         <button
           v-on:click="logout"

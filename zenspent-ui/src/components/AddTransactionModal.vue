@@ -39,32 +39,30 @@
           <label for="Recipient">
             <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Recipient </span>
 
-            <div class="relative">
-              <input
-                type="text"
-                id="Recipient"
-                list="RecipientList"
-                class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white"
-              />
-            </div>
-
-            <datalist
-              id="RecipientList"
+            <select
+              name="Recipient"
+              id="Recipient"
               class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white"
             >
-              <option value="1">Razplashtatelna Smetka DSK</option>
-              <option value="2">Razplashtatelna Smetka UBB</option>
-            </datalist>
+              <option value="">Please select</option>
+              <option value="JM">John Mayer</option>
+              <option value="SRV">Stevie Ray Vaughn</option>
+              <option value="JH">Jimi Hendrix</option>
+              <option value="BBK">B.B King</option>
+              <option value="AK">Albert King</option>
+              <option value="BG">Buddy Guy</option>
+              <option value="EC">Eric Clapton</option>
+            </select>
           </label>
         </div>
 
         <div class="flex-1">
-          <label for="Amount">
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Amount </span>
+          <label for="Date">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Date </span>
 
             <input
-              type="text"
-              id="Amount"
+              type="date"
+              id="Date"
               class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white"
             />
           </label>
@@ -112,12 +110,12 @@
 
       <div class="mt-3 flex flex-col lg:flex-row gap-4">
         <div class="flex-1">
-          <label for="Headline">
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Headliner </span>
+          <label for="Payer">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Payer </span>
 
             <select
-              name="Headline"
-              id="Headline"
+              name="Payer"
+              id="Payer"
               class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white"
             >
               <option value="">Please select</option>
