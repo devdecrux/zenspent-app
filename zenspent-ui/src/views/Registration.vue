@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    
+
     <div id="username-input">
       <div>
         <label for="username-input" class="block text-sm text-gray-500 dark:text-gray-300">Username</label>

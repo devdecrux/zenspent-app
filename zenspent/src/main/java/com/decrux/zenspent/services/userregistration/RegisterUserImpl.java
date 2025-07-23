@@ -24,7 +24,7 @@ public class RegisterUserImpl implements RegisterUser {
     @Transactional
     public void registerUser(RegisterUserDTO userDTO) {
         ZSUser user = new ZSUser();
-        user.setUsername(userDTO.username().trim());
+        //user.setUsername(userDTO.username().trim());
         user.setPassword(this.passwordEncoder.encode(userDTO.password().trim()));
         user.setEmail(userDTO.email().trim());
         user.setFirstName(userDTO.firstName());

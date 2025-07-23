@@ -24,6 +24,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Icon } from '@iconify/vue'
 import { useColorMode } from '@vueuse/core'
+import { useUserStore } from '@/stores/user.ts'
+import axios from 'axios'
+import router from '@/router'
 
 const routes = [
   { name: 'Dashboard', path: '/dashboard', icon: Home },
@@ -37,6 +40,31 @@ const props = withDefaults(defineProps<SidebarProps>(), {
 })
 
 const mode = useColorMode()
+
+const userStore = useUserStore()
+
+const logout = () => {
+  axios.defaults.withXSRFToken = true
+  axios.defaults.withCredentials = true
+  axios
+    .post(
+      '/api/v1/user/logout',
+      {},
+      {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      },
+    )
+    .then((response) => {
+      if (response.status === 200) {
+        userStore.clearUser()
+        router.push('/login')
+      }
+    })
+    .catch((error) => {
+      if (error.status === 400) {
+      }
+    })
+}
 </script>
 
 <template>
@@ -118,7 +146,7 @@ const mode = useColorMode()
 
     <Separator />
 
-    <SidebarFooter>
+    <SidebarFooter v-if="userStore.user != null">
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>
@@ -129,15 +157,17 @@ const mode = useColorMode()
                   <AvatarFallback class="rounded-lg border"> MV</AvatarFallback>
                 </Avatar>
                 <div class="grid flex-1 text-left text-sm leading-tight">
-                  <span class="truncate font-semibold">Milen Valchev</span>
-                  <span class="truncate text-xs">milen.ovalchev@gmail.com</span>
+                  <span class="truncate font-semibold">{{
+                    userStore.user?.firstName + ' ' + userStore.user?.lastName
+                  }}</span>
+                  <span class="truncate text-xs">{{ userStore.user?.email }}</span>
                 </div>
                 <ChevronsUpDown class="ml-auto size-4" />
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
-                <DropdownMenuItem>
+                <DropdownMenuItem v-on:click="logout">
                   <LogOut />
                   Log out
                 </DropdownMenuItem>

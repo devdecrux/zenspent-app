@@ -1,9 +1,9 @@
 FROM node:22.15-alpine3.21 AS frontend-builder
 WORKDIR /vue-app
-COPY /zenspent-ui/package-lock.json .
-COPY /zenspent-ui/package.json .
+COPY /zenspent-ui-v2/package-lock.json .
+COPY /zenspent-ui-v2/package.json .
 RUN npm install
-COPY /zenspent-ui .
+COPY /zenspent-ui-v2 .
 RUN npm run build
 
 FROM maven:3.9.9-eclipse-temurin-21-alpine AS backend-builder
