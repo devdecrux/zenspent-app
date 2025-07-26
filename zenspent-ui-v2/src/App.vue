@@ -13,6 +13,7 @@ const isLoginOrRegistrationPage = computed(() => {
 onMounted(() => {
   const appMode = import.meta.env.VITE_APP_MODE
   console.log('appMode: ' + appMode)
+  console.log('localStorage: ', localStorage)
   if (appMode != null && appMode == 'development') {
     loadCSRFToken()
   }

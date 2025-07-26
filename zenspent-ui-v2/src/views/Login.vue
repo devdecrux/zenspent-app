@@ -67,33 +67,30 @@ const loadUserData = () => {
         <CardDescription> Enter your email below to login to your account</CardDescription>
       </CardHeader>
       <CardContent>
-        <div class="grid gap-4">
-          <div class="grid gap-2">
-            <Label for="email">Email</Label>
-            <Input
-              v-model="email"
-              v-on:keyup.enter="login"
-              id="email"
-              type="email"
-              placeholder="email@example.com"
-              required
-            />
-          </div>
-          <div class="grid gap-2">
-            <div class="flex items-center">
-              <Label for="password">Password</Label>
-              <a href="#" class="ml-auto inline-block text-sm underline"> Forgot your password? </a>
+        <form @submit.prevent="login">
+          <div class="grid gap-4">
+            <div class="grid gap-2">
+              <Label for="email">Email</Label>
+              <Input
+                v-model="email"
+                id="email"
+                type="email"
+                placeholder="email@example.com"
+                required
+              />
             </div>
-            <Input
-              v-model="password"
-              v-on:keyup.enter="login"
-              id="password"
-              type="password"
-              required
-            />
+            <div class="grid gap-2">
+              <div class="flex items-center">
+                <Label for="password">Password</Label>
+                <a href="#" class="ml-auto inline-block text-sm underline">
+                  Forgot your password?
+                </a>
+              </div>
+              <Input v-model="password" id="password" type="password" required />
+            </div>
+            <Button class="w-full">Login</Button>
           </div>
-          <Button class="w-full" v-on:click="login">Login</Button>
-        </div>
+        </form>
         <div class="mt-4 text-center text-sm">
           Don't have an account?
           <RouterLink to="/registration" class="underline"> Sign up</RouterLink>

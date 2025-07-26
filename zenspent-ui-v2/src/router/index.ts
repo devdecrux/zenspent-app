@@ -2,9 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '@/views/Dashboard.vue'
 import Login from '@/views/Login.vue'
 import Registration from '@/views/Registration.vue'
-import Transactions from '@/views/Transactions.vue'
 import NotFound from '@/views/NotFound.vue'
 import { useUserStore } from '@/stores/user.ts'
+import TransactionsTest from '@/views/TransactionsTest.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,7 +27,7 @@ const router = createRouter({
     {
       path: '/transactions',
       name: 'transactions',
-      component: Transactions,
+      component: TransactionsTest,
     },
     // {
     //   path: '/subscriptions',
@@ -49,7 +49,7 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   const userStore = useUserStore()
-  console.log(userStore.user)
+  console.log('Authenticated user: ', userStore.user)
   if (userStore.user == null && to.name !== 'login' && to.name !== 'registration') {
     return { name: 'login' }
   }
