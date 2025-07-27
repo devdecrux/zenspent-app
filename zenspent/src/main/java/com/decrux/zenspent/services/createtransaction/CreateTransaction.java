@@ -1,10 +1,10 @@
 package com.decrux.zenspent.services.createtransaction;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
-import com.decrux.zenspent.entities.dtos.TransactionDTO;
+import com.decrux.zenspent.entities.dtos.TransactionDto;
 
 public interface CreateTransaction {
 
-    TransactionDTO createTransaction(TransactionDTO transactionDTO, ZSUser user);
+    TransactionDto createTransaction(TransactionDto transactionDTO, ZSUser user);
 
 }

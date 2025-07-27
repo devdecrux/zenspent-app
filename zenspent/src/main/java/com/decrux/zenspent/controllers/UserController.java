@@ -1,8 +1,8 @@
 package com.decrux.zenspent.controllers;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
-import com.decrux.zenspent.entities.dtos.RegisterUserDTO;
-import com.decrux.zenspent.entities.dtos.ZSUserDTO;
+import com.decrux.zenspent.entities.dtos.RegisterUserDto;
+import com.decrux.zenspent.entities.dtos.ZSUserDto;
 import com.decrux.zenspent.services.userregistration.RegisterUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,13 +16,13 @@ public class UserController {
     private final RegisterUser registerUser;
 
     @PostMapping("/register")
-    public void registerUser(@RequestBody RegisterUserDTO registerUserDTO) {
+    public void registerUser(@RequestBody RegisterUserDto registerUserDTO) {
         this.registerUser.registerUser(registerUserDTO);
     }
 
     @GetMapping
-    public ZSUserDTO retrieveUserData(@AuthenticationPrincipal ZSUser user) {
-        return ZSUserDTO.builder()
+    public ZSUserDto retrieveUserData(@AuthenticationPrincipal ZSUser user) {
+        return ZSUserDto.builder()
                 .email(user.getEmail())
                 .username(user.getUsername())
                 .firstName(user.getFirstName())

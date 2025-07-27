@@ -2,6 +2,7 @@ package com.decrux.zenspent.entities.db;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.enums.TransactionTypes;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,10 +24,14 @@ public class Transaction {
     private BigDecimal amount;
     private LocalDate date;
     private String category;
-    private String recipientName;
-    private Long recipientAssetAccountId;
-    private String payerName;
-    private Long payerAssetAccountId;
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "recipient_asset_account_id")
+    private AssetAccount recipient;
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "payer_asset_account_id")
+    private AssetAccount payer;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private ZSUser user;

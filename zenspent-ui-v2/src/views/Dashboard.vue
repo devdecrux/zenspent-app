@@ -2,7 +2,7 @@
 import { onMounted } from 'vue'
 
 onMounted(() => {
-  console.log('localStorage from dashboard: ', localStorage)
+  console.log('sessionStorage from dashboard: ', sessionStorage)
 })
 </script>
 

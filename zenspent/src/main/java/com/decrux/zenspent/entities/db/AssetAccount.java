@@ -2,12 +2,14 @@ package com.decrux.zenspent.entities.db;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.enums.AssetsAccountTypes;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +26,12 @@ public class AssetAccount {
     private AssetsAccountTypes type;
     private String description;
     private LocalDate createdAt;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "recipient")
+    private List<Transaction> incomingTransactions;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "payer")
+    private List<Transaction> outgoingTransactions;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private ZSUser user;

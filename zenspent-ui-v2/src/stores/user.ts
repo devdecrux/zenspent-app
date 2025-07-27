@@ -13,11 +13,29 @@ export const useUserStore = defineStore(
 
     function clearUser() {
       user.value = null
+      sessionStorage.removeItem('user')
+      // router.push('/login')
     }
 
     return { user, setUser, clearUser }
   },
   {
-    persist: true,
+    persist: {
+      storage: sessionStorage,
+      // afterHydrate: (context) => {
+      //   axios.defaults.withXSRFToken = true
+      //   axios.defaults.withCredentials = true
+      //   axios
+      //     .get('/api/v1/user')
+      //     .then((response) => {
+      //       if (response.status >= 300) {
+      //         context.store.clearUser()
+      //       }
+      //     })
+      //     .catch(() => {
+      //       context.store.clearUser()
+      //     })
+      // },
+    },
   },
 )

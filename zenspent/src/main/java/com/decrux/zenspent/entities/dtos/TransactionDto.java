@@ -4,12 +4,12 @@ import com.decrux.zenspent.entities.enums.TransactionTypes;
 
 import java.math.BigDecimal;
 
-public record TransactionDTO(Long transactionId,
+public record TransactionDto(Long id,
                              TransactionParticipantDto recipient,
                              TransactionTypes type,
                              BigDecimal amount,
                              String category,
                              String date,
-                             ZSUserDTO user,
+                             ZSUserDto user,
                              TransactionParticipantDto payer) {
 }

@@ -1,12 +1,10 @@
 package com.decrux.zenspent.services.gettransactions;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
-import com.decrux.zenspent.entities.dtos.TransactionDTO;
-
-import java.util.List;
+import com.decrux.zenspent.entities.dtos.PaginationRequestDto;
+import com.decrux.zenspent.entities.dtos.PaginationResultDto;
+import com.decrux.zenspent.entities.dtos.TransactionDto;
 
 public interface GetTransactions {
-
-    List<TransactionDTO> getAllTransactions(ZSUser user);
-
+    PaginationResultDto<TransactionDto> getAllTransactions(ZSUser user, PaginationRequestDto paginationRequest);
 }

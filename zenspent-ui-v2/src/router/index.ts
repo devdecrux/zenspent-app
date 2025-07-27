@@ -4,7 +4,7 @@ import Login from '@/views/Login.vue'
 import Registration from '@/views/Registration.vue'
 import NotFound from '@/views/NotFound.vue'
 import { useUserStore } from '@/stores/user.ts'
-import TransactionsTest from '@/views/TransactionsTest.vue'
+import Transactions from '@/views/Transactions.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,7 +27,7 @@ const router = createRouter({
     {
       path: '/transactions',
       name: 'transactions',
-      component: TransactionsTest,
+      component: Transactions,
     },
     // {
     //   path: '/subscriptions',

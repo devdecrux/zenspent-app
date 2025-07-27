@@ -1,6 +1,13 @@
 <script setup lang="ts" generic="TData, TValue">
-import { FlexRender, getCoreRowModel, type PaginationState, useVueTable } from '@tanstack/vue-table'
-
+import { columns } from '@/views/columns.ts'
+import {
+  type ColumnDef,
+  FlexRender,
+  getCoreRowModel,
+  type PaginationState,
+  useVueTable,
+} from '@tanstack/vue-table'
+import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -9,27 +16,32 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { columns } from '@/views/columns.ts'
-import axios from 'axios'
-import { onMounted, ref } from 'vue'
-import type { PaginationResult } from '@/entities/PaginationResult.ts'
-import type { Transaction } from '@/entities/Transaction.ts'
-import { Button } from '@/components/ui/button'
+import { onMounted } from 'vue'
 
-const transactions = ref<PaginationResult<Transaction> | null>(null)
-let serverPageNumber = ref(0)
-let serverPageSize = ref(10)
+const props = defineProps<{
+  data: TData[]
+  columns: ColumnDef<TData, TValue>[]
+  totalItems: number
+  totalPages: number
+  loadDataTable: () => void
+  serverPageNumber: number
+  serverPageSize: number
+}>()
+
+const emit = defineEmits<{
+  (event: 'paginationUpdate', pageIndex: number, pageSize: number): void
+}>()
 
 function setPagination({ pageIndex, pageSize }: PaginationState): PaginationState {
-  serverPageNumber.value = pageIndex
-  serverPageSize.value = pageSize
+  emit('paginationUpdate', pageIndex, pageSize)
 
   return { pageIndex, pageSize }
 }
 
 const table = useVueTable({
   get data() {
-    return transactions.value?.content ?? []
+    return props.data ?? []
+    // return transactions.value?.content ?? []
   },
   get columns() {
     return columns
@@ -37,16 +49,18 @@ const table = useVueTable({
   getCoreRowModel: getCoreRowModel(),
   manualPagination: true,
   get rowCount() {
-    return transactions.value?.totalItems ?? 0
+    return props.totalItems ?? 0
+    // return transactions.value?.totalItems ?? 0
   },
   get pageCount() {
-    return transactions.value?.totalPages ?? 0
+    return props.totalPages ?? 10
+    // return transactions.value?.totalPages ?? 0
   },
   state: {
     get pagination() {
       return {
-        pageIndex: serverPageNumber.value,
-        pageSize: serverPageSize.value,
+        pageIndex: props.serverPageNumber,
+        pageSize: props.serverPageSize,
       }
     },
   },
@@ -54,40 +68,19 @@ const table = useVueTable({
     if (typeof updater === 'function') {
       setPagination(
         updater({
-          pageIndex: serverPageNumber.value,
-          pageSize: serverPageSize.value,
+          pageIndex: props.serverPageNumber,
+          pageSize: props.serverPageSize,
         }),
       )
     } else {
       setPagination(updater)
     }
-    loadTransactions()
+    props.loadDataTable()
   },
 })
 
-const loadTransactions = () => {
-  axios.defaults.withXSRFToken = true
-  axios.defaults.withCredentials = true
-  axios
-    .get('/api/v1/transactions', {
-      params: {
-        pageNumber: serverPageNumber.value,
-        pageSize: serverPageSize.value,
-      },
-    })
-    .then((response) => {
-      if (response.status === 200) {
-        transactions.value = response.data
-      }
-    })
-    .catch((error) => {
-      console.error('Error loading transactions:', error)
-    })
-}
 onMounted(() => {
-  loadTransactions()
-  console.log('table.getCanPreviousPage(): ' + table.getCanPreviousPage())
-  console.log('table.getCanPreviousPage(): ' + table.getCanNextPage())
+  props.loadDataTable()
 })
 </script>
 
@@ -144,3 +137,5 @@ onMounted(() => {
     </Button>
   </div>
 </template>
+
+<style scoped></style>

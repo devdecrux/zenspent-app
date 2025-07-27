@@ -2,7 +2,7 @@ package com.decrux.zenspent.services.userregistration;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.db.auth.ZSUserRole;
-import com.decrux.zenspent.entities.dtos.RegisterUserDTO;
+import com.decrux.zenspent.entities.dtos.RegisterUserDto;
 import com.decrux.zenspent.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +22,7 @@ public class RegisterUserImpl implements RegisterUser {
 
     @Override
     @Transactional
-    public void registerUser(RegisterUserDTO userDTO) {
+    public void registerUser(RegisterUserDto userDTO) {
         ZSUser user = new ZSUser();
         //user.setUsername(userDTO.username().trim());
         user.setPassword(this.passwordEncoder.encode(userDTO.password().trim()));

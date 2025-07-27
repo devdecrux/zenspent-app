@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class ZSUserDTO {
+public class ZSUserDto {
 
     private String username;
     private String email;

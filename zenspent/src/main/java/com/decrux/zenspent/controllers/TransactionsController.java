@@ -1,14 +1,14 @@
 package com.decrux.zenspent.controllers;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
-import com.decrux.zenspent.entities.dtos.TransactionDTO;
+import com.decrux.zenspent.entities.dtos.PaginationRequestDto;
+import com.decrux.zenspent.entities.dtos.PaginationResultDto;
+import com.decrux.zenspent.entities.dtos.TransactionDto;
 import com.decrux.zenspent.services.createtransaction.CreateTransaction;
 import com.decrux.zenspent.services.gettransactions.GetTransactions;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,12 +19,15 @@ public class TransactionsController {
     private final GetTransactions getTransactions;
 
     @GetMapping
-    public List<TransactionDTO> getAllTransactions(@AuthenticationPrincipal ZSUser user) {
-        return this.getTransactions.getAllTransactions(user);
+    public PaginationResultDto<TransactionDto> getAllTransactions(@AuthenticationPrincipal ZSUser user,
+                                                                  @RequestParam(defaultValue = "0") int pageNumber,
+                                                                  @RequestParam(defaultValue = "10") int pageSize) {
+        PaginationRequestDto paginationRequest = new PaginationRequestDto(pageNumber, pageSize);
+        return this.getTransactions.getAllTransactions(user, paginationRequest);
     }
 
     @PostMapping
-    public TransactionDTO createTransaction(@RequestBody TransactionDTO transactionDTO, @AuthenticationPrincipal ZSUser user) {
+    public TransactionDto createTransaction(@RequestBody TransactionDto transactionDTO, @AuthenticationPrincipal ZSUser user) {
         return createTransaction.createTransaction(transactionDTO, user);
     }
 
