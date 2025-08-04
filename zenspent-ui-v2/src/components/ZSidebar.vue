@@ -152,8 +152,8 @@ const logout = () => {
           <DropdownMenu>
             <DropdownMenuTrigger as-child>
               <SidebarMenuButton size="lg">
-                <Avatar class="h-8 w-8 rounded-lg">
-                  <AvatarImage src="../assets/avatar.jpg" />
+                <Avatar class="h-9 w-9 rounded-lg">
+                  <AvatarImage src="https://i.postimg.cc/63QFCgRj/IMG-5411.png" />
                   <AvatarFallback class="rounded-lg border"> MV</AvatarFallback>
                 </Avatar>
                 <div class="grid flex-1 text-left text-sm leading-tight">

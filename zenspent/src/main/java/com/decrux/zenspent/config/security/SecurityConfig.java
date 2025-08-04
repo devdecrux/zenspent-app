@@ -23,6 +23,7 @@ public class SecurityConfig {
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     private final UserRepository userRepository;
     private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -46,6 +47,8 @@ public class SecurityConfig {
                         // TODO to avoid CSRF token exposure in production
                         .requestMatchers(GET_CSRF_TOKEN_ENDPOINT.getValue()).permitAll()
                         .anyRequest().authenticated())
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(this.customAuthenticationEntryPoint))
                 .userDetailsService(new CustomUserDetailsService(this.userRepository))
                 .logout(logout -> logout
                         .logoutUrl(BACKEND_LOGOUT_PROCESSING_URL.getValue())

@@ -7,12 +7,14 @@ import { ref } from 'vue'
 import { useUserStore } from '@/stores/user.ts'
 import axios from 'axios'
 import router from '@/router'
+import { useSelectMenuDataStore } from '@/stores/select_menu_data.ts'
 
 const email = ref('')
 const password = ref('')
 let isAlert = ref(false)
 
 const userStore = useUserStore()
+const loadSelectData = useSelectMenuDataStore()
 
 const login = () => {
   axios.defaults.withXSRFToken = true
@@ -48,6 +50,7 @@ const loadUserData = () => {
     .then((response) => {
       if (response.status === 200) {
         userStore.setUser(response.data)
+        initSelectData()
         router.push('/dashboard')
       }
     })
@@ -56,6 +59,14 @@ const loadUserData = () => {
         isAlert.value = true
       }
     })
+}
+
+const initSelectData = () => {
+  if (userStore.isAuthenticated) {
+    if (loadSelectData.transactionTypes.length === 0) {
+      loadSelectData.loadTransactionTypes()
+    }
+  }
 }
 </script>
 

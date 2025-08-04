@@ -23,11 +23,11 @@ export const columns: ColumnDef<Transaction>[] = [
     },
   },
   {
-    accessorKey: 'category',
-    header: () => h('div', { class: 'text-right' }, 'Category'),
+    accessorKey: 'payer',
+    header: () => h('div', { class: 'text-right' }, 'Payer'),
     cell: ({ row }) => {
-      const category = row.getValue('category') as string
-      return h('div', { class: 'text-right font-bold' }, category)
+      const payer = row.getValue('payer') as TransactionParticipant
+      return h('div', { class: 'text-right font-bold' }, payer.name)
     },
   },
   {
@@ -43,6 +43,14 @@ export const columns: ColumnDef<Transaction>[] = [
     },
   },
   {
+    accessorKey: 'category',
+    header: () => h('div', { class: 'text-right' }, 'Category'),
+    cell: ({ row }) => {
+      const category = row.getValue('category') as string
+      return h('div', { class: 'text-right font-bold' }, category)
+    },
+  },
+  {
     accessorKey: 'date',
     header: () => h('div', { class: 'text-right' }, 'Date'),
     cell: ({ row }) => {
@@ -53,14 +61,6 @@ export const columns: ColumnDef<Transaction>[] = [
         year: 'numeric',
       }).format(new Date(date))
       return h('div', { class: 'text-right font-bold' }, formattedDate)
-    },
-  },
-  {
-    accessorKey: 'payer',
-    header: () => h('div', { class: 'text-right' }, 'Payer'),
-    cell: ({ row }) => {
-      const payer = row.getValue('payer') as TransactionParticipant
-      return h('div', { class: 'text-right font-bold' }, payer.name)
     },
   },
   {

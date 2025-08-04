@@ -3,12 +3,16 @@ package com.decrux.zenspent.services.gettransactions;
 import com.decrux.zenspent.entities.db.Transaction;
 import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.dtos.*;
+import com.decrux.zenspent.entities.enums.TransactionTypes;
 import com.decrux.zenspent.repositories.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.springframework.data.domain.Sort.Direction.ASC;
 
@@ -45,6 +49,13 @@ public class GetTransactionsImpl implements GetTransactions {
                 transactions.getNumber(),
                 transactions.isEmpty()
         );
+    }
+
+    public List<TransactionTypeDto> getTransactionTypes() {
+        return Arrays.stream(
+                        TransactionTypes.values())
+                .map(type -> new TransactionTypeDto(type.name(), type.name()))
+                .toList();
     }
 
 }

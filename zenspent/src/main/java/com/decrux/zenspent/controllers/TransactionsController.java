@@ -4,11 +4,14 @@ import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.dtos.PaginationRequestDto;
 import com.decrux.zenspent.entities.dtos.PaginationResultDto;
 import com.decrux.zenspent.entities.dtos.TransactionDto;
+import com.decrux.zenspent.entities.dtos.TransactionTypeDto;
 import com.decrux.zenspent.services.createtransaction.CreateTransaction;
 import com.decrux.zenspent.services.gettransactions.GetTransactions;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +31,12 @@ public class TransactionsController {
 
     @PostMapping
     public TransactionDto createTransaction(@RequestBody TransactionDto transactionDTO, @AuthenticationPrincipal ZSUser user) {
-        return createTransaction.createTransaction(transactionDTO, user);
+        return this.createTransaction.createTransaction(transactionDTO, user);
+    }
+
+    @GetMapping("/types")
+    public List<TransactionTypeDto> getTransactionTypes() {
+        return this.getTransactions.getTransactionTypes();
     }
 
 }

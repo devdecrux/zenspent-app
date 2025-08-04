@@ -6,7 +6,6 @@ import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.dtos.TransactionDto;
 import com.decrux.zenspent.entities.dtos.TransactionParticipantDto;
 import com.decrux.zenspent.entities.dtos.ZSUserDto;
-import com.decrux.zenspent.entities.enums.TransactionTypes;
 import com.decrux.zenspent.repositories.AssetsAccountRepository;
 import com.decrux.zenspent.repositories.TransactionRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,17 +44,7 @@ public class CreateTransactionImpl implements CreateTransaction {
             throw new IllegalArgumentException("Source asset account not found with ID: " + transactionDTO.payer().assetAccountId());
         }
 
-        Transaction savedTransaction;
-
-        switch (transactionDTO.type()) {
-            case TransactionTypes.WITHDRAWAL ->
-                    savedTransaction = createWithdrawalTransaction(transactionDTO, recipentAssetAccount, sourceAssetAccount, user);
-            case TransactionTypes.INCOME, TransactionTypes.SALARY, TransactionTypes.REFUND ->
-                    savedTransaction = createIncomeTransaction(transactionDTO, recipentAssetAccount, sourceAssetAccount, user);
-            case TransactionTypes.TRANSFER ->
-                    savedTransaction = createTransferTransaction(transactionDTO, recipentAssetAccount, sourceAssetAccount, user);
-            default -> throw new IllegalStateException("Unexpected transaction type: " + transactionDTO.type());
-        }
+        Transaction savedTransaction = createTransaction(transactionDTO, recipentAssetAccount, sourceAssetAccount, user);
 
         ZSUserDto zsUserDTO = ZSUserDto.builder()
                 .username(savedTransaction.getUser().getUsername())
@@ -76,43 +65,9 @@ public class CreateTransactionImpl implements CreateTransaction {
         );
     }
 
-    private Transaction createWithdrawalTransaction(TransactionDto transactionDTO, AssetAccount recipientAssetAccount, AssetAccount payerAssetAccount, ZSUser user) {
-        Transaction transaction = createBasicTransaction(transactionDTO, user);
-        transaction.setType(TransactionTypes.WITHDRAWAL);
-
-        transaction.setRecipient(recipientAssetAccount);
-
-        transaction.setPayer(payerAssetAccount);
-
-        Transaction savedTransactions = this.transactionRepository.save(transaction);
-
-        BigDecimal newSourceAccountBalance = payerAssetAccount.getBalance().subtract(savedTransactions.getAmount());
-        payerAssetAccount.setBalance(newSourceAccountBalance);
-        this.assetsAccountRepository.save(payerAssetAccount);
-
-        return savedTransactions;
-    }
-
-    private Transaction createIncomeTransaction(TransactionDto transactionDTO, AssetAccount recipientAssetAccount, AssetAccount payerAssetAccount, ZSUser user) {
+    private Transaction createTransaction(TransactionDto transactionDTO, AssetAccount recipientAssetAccount, AssetAccount payerAssetAccount, ZSUser user) {
         Transaction transaction = createBasicTransaction(transactionDTO, user);
         transaction.setType(transactionDTO.type());
-
-        transaction.setRecipient(recipientAssetAccount);
-
-        transaction.setPayer(payerAssetAccount);
-
-        Transaction savedTransactions = this.transactionRepository.save(transaction);
-
-        BigDecimal newRecipientAccountBalance = recipientAssetAccount.getBalance().add(savedTransactions.getAmount());
-        recipientAssetAccount.setBalance(newRecipientAccountBalance);
-        this.assetsAccountRepository.save(recipientAssetAccount);
-
-        return savedTransactions;
-    }
-
-    private Transaction createTransferTransaction(TransactionDto transactionDTO, AssetAccount recipientAssetAccount, AssetAccount payerAssetAccount, ZSUser user) {
-        Transaction transaction = createBasicTransaction(transactionDTO, user);
-        transaction.setType(TransactionTypes.TRANSFER);
 
         transaction.setRecipient(recipientAssetAccount);
 
