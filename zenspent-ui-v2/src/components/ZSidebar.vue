@@ -11,7 +11,15 @@ import {
   SidebarMenuItem,
   type SidebarProps,
 } from '@/components/ui/sidebar'
-import { ArrowUpDown, ChevronsUpDown, Home, LogOut, RotateCw, Settings } from 'lucide-vue-next'
+import {
+  ArrowUpDown,
+  ChevronsUpDown,
+  Home,
+  LogOut,
+  RotateCw,
+  Settings,
+  WalletMinimal,
+} from 'lucide-vue-next'
 import { Separator } from '@/components/ui/separator'
 import {
   DropdownMenu,
@@ -31,6 +39,7 @@ import router from '@/router'
 const routes = [
   { name: 'Dashboard', path: '/dashboard', icon: Home },
   { name: 'Transactions', path: '/transactions', icon: ArrowUpDown },
+  { name: 'Asset Accounts', path: '/asset-accounts', icon: WalletMinimal },
   { name: 'Subscriptions', path: '/subscriptions', icon: RotateCw },
   { name: 'Settings', path: '/settings', icon: Settings },
 ]

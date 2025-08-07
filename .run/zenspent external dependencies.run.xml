@@ -1,9 +1,14 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="zenspent external dependencies" type="docker-deploy" factoryName="docker-compose.yml" server-name="docker localhost">
+  <configuration default="false" name="zenspent external dependencies" type="docker-deploy" factoryName="docker-compose.yml" server-name="localhost docker">
     <deployment type="docker-compose.yml">
       <settings>
         <option name="containerName" value="" />
         <option name="envFilePath" value="" />
+        <option name="envFilePaths">
+          <list>
+            <option value="" />
+          </list>
+        </option>
         <option name="services">
           <list>
             <option value="db" />

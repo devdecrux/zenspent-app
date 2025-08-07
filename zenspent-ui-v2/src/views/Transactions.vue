@@ -72,6 +72,10 @@ const df = new Intl.DateTimeFormat('bg-BG', {
 })
 
 const selectData = useSelectMenuDataStore()
+
+const createTransaction = () => {
+  console.log('Date selected: ', date.value?.toDate(getLocalTimeZone()))
+}
 </script>
 
 <template>
@@ -159,7 +163,7 @@ const selectData = useSelectMenuDataStore()
           </Popover>
         </div>
         <DialogFooter>
-          <Button>Save</Button>
+          <Button v-on:click="createTransaction">Save</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

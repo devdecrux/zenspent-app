@@ -1,0 +1,19 @@
+meta {
+  name: Get Transaction Types
+  type: http
+  seq: 6
+}
+
+get {
+  url: http://localhost:8081/api/v1/transactions/types
+  body: none
+  auth: inherit
+}
+
+headers {
+  Cookie: JSESSIONID=48A4F9E37850E7437DD56E33C13EF160; XSRF-TOKEN=80cb0ab0-234f-4f5d-9ca5-605f0c7598a9
+}
+
+settings {
+  encodeUrl: true
+}
