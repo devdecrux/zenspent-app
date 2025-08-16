@@ -3,7 +3,7 @@ package com.decrux.zenspent.services.createassetsaccount;
 import com.decrux.zenspent.entities.db.AssetAccount;
 import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.dtos.AssetAccountDto;
-import com.decrux.zenspent.repositories.AssetsAccountRepository;
+import com.decrux.zenspent.repositories.AssetAccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class CreateAssetsAccountImpl implements CreateAssetsAccount {
 
-    private final AssetsAccountRepository assetsAccountRepository;
+    private final AssetAccountRepository assetAccountRepository;
 
     public AssetAccountDto createAssetsAccount(AssetAccountDto assetAccountDto, ZSUser user) {
         AssetAccount assetAccount = new AssetAccount();
@@ -21,10 +21,10 @@ public class CreateAssetsAccountImpl implements CreateAssetsAccount {
         assetAccount.setBalance(assetAccountDto.balance());
         assetAccount.setType(assetAccountDto.type());
         assetAccount.setDescription(assetAccountDto.description());
-        assetAccount.setCreatedAt(LocalDate.now());
+        assetAccount.setDate(LocalDate.now());
         assetAccount.setUser(user);
 
-        AssetAccount savedAssetAccount = this.assetsAccountRepository.save(assetAccount);
+        AssetAccount savedAssetAccount = this.assetAccountRepository.save(assetAccount);
 
         return new AssetAccountDto(
                 savedAssetAccount.getAssetAccountId(),

@@ -1,29 +1,27 @@
 <script setup lang="ts">
-import { Edit, Trash2 } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
-import type { Transaction } from '@/entities/Transaction.ts'
+import type { Component } from 'vue'
 
 defineProps<{
-  transaction: Transaction
+  actions: Array<{
+    label: string
+    icon: Component
+    onClick: () => void
+  }>
 }>()
-
-const deleteItem = (id: number) => {
-  // Logic to delete the row
-  console.log('Deleting row with ID:', id)
-}
-
-const editItem = (transaction: Transaction) => {
-  // Logic to delete the row
-  console.log('Editing row with ID:', transaction)
-}
 </script>
 
 <template>
-  <Button v-on:click="editItem(transaction)" variant="outline" size="icon" class="mr-1">
-    <Edit class="w-4 h-4" />
-  </Button>
-  <Button v-on:click="deleteItem(transaction.id)" variant="outline" size="icon">
-    <Trash2 class="w-4 h-4" />
+  <Button
+    v-for="action in actions"
+    :key="action.label"
+    @click="action.onClick"
+    variant="outline"
+    size="icon"
+    class="mr-1"
+    :aria-label="action.label"
+  >
+    <component :is="action.icon" class="w-4 h-4" />
   </Button>
 </template>
 

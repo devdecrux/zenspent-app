@@ -3,25 +3,11 @@ import axios from 'axios'
 import { ref } from 'vue'
 import type { PaginationResult } from '@/entities/PaginationResult.ts'
 import type { Transaction } from '@/entities/Transaction.ts'
-import ZTable from '@/components/ZTable.vue'
-import { columns } from '@/views/columns.ts'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+import ZTable from '@/components/ztable/ZTable.vue'
+import { transactionColumns } from '@/components/ztable/transaction-columns.ts'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils.ts'
@@ -33,8 +19,8 @@ import { CalendarIcon } from 'lucide-vue-next'
 import { getLocalTimeZone } from '@internationalized/date'
 import { useSelectMenuDataStore } from '@/stores/select_menu_data.ts'
 
-let serverPageNumber = ref(0)
-let serverPageSize = ref(10)
+const serverPageNumber = ref(0)
+const serverPageSize = ref(10)
 
 const date = ref<DateValue>()
 
@@ -47,8 +33,8 @@ const loadTableData = () => {
     .get('/api/v1/transactions', {
       params: {
         pageNumber: serverPageNumber.value,
-        pageSize: serverPageSize.value,
-      },
+        pageSize: serverPageSize.value
+      }
     })
     .then((response) => {
       if (response.status === 200) {
@@ -68,7 +54,7 @@ function handlePaginationUpdate(pageIndex: number, pageSize: number) {
 const df = new Intl.DateTimeFormat('bg-BG', {
   year: 'numeric',
   month: '2-digit',
-  day: '2-digit',
+  day: '2-digit'
 })
 
 const selectData = useSelectMenuDataStore()
@@ -129,8 +115,11 @@ const createTransaction = () => {
               <SelectValue placeholder="Select a type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem v-for="type in selectData.transactionTypes" :value="type.value"
-                >{{ type.label }}
+              <SelectItem
+                v-for="type in selectData.transactionTypes"
+                :value="type.value"
+                v-bind:key="type.value"
+              >{{ type.label }}
               </SelectItem>
             </SelectContent>
           </Select>
@@ -171,7 +160,7 @@ const createTransaction = () => {
 
   <ZTable
     :data="transactions?.content ?? []"
-    :columns="columns"
+    :columns="transactionColumns"
     :total-items="transactions?.totalItems ?? 0"
     :total-pages="transactions?.totalPages ?? 0"
     :load-data-table="loadTableData"

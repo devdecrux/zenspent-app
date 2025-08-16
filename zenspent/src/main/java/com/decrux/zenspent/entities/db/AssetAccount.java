@@ -1,7 +1,7 @@
 package com.decrux.zenspent.entities.db;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
-import com.decrux.zenspent.entities.enums.AssetsAccountTypes;
+import com.decrux.zenspent.entities.enums.AssetAccountTypes;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,9 +23,9 @@ public class AssetAccount {
     private String name;
     private BigDecimal balance;
     @Enumerated(EnumType.STRING)
-    private AssetsAccountTypes type;
+    private AssetAccountTypes type;
     private String description;
-    private LocalDate createdAt;
+    private LocalDate date;
     @JsonManagedReference
     @OneToMany(mappedBy = "recipient")
     private List<Transaction> incomingTransactions;

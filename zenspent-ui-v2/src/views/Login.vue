@@ -24,11 +24,11 @@ const login = () => {
       '/api/v1/user/login',
       {
         username: email.value,
-        password: password.value,
+        password: password.value
       },
       {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      }
     )
     .then((response) => {
       if (response.status === 200) {
@@ -65,6 +65,9 @@ const initSelectData = () => {
   if (userStore.isAuthenticated) {
     if (loadSelectData.transactionTypes.length === 0) {
       loadSelectData.loadTransactionTypes()
+    }
+    if (loadSelectData.transactionTypes.length === 0) {
+      loadSelectData.loadAssetAccountTypes()
     }
   }
 }

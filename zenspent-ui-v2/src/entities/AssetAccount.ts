@@ -1,5 +1,5 @@
 export interface AssetAccount {
-  assetsAccountId: number
+  id: number
   name: string
   balance: bigint
   type: string

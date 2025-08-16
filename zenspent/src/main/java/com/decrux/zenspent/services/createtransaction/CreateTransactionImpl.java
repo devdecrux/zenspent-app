@@ -6,7 +6,7 @@ import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.dtos.TransactionDto;
 import com.decrux.zenspent.entities.dtos.TransactionParticipantDto;
 import com.decrux.zenspent.entities.dtos.ZSUserDto;
-import com.decrux.zenspent.repositories.AssetsAccountRepository;
+import com.decrux.zenspent.repositories.AssetAccountRepository;
 import com.decrux.zenspent.repositories.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CreateTransactionImpl implements CreateTransaction {
 
-    private final AssetsAccountRepository assetsAccountRepository;
+    private final AssetAccountRepository assetAccountRepository;
     private final TransactionRepository transactionRepository;
 
     @Override
@@ -30,14 +30,14 @@ public class CreateTransactionImpl implements CreateTransaction {
         AssetAccount recipentAssetAccount;
         AssetAccount sourceAssetAccount;
 
-        Optional<AssetAccount> recipientAssetAccountOptional = this.assetsAccountRepository.findById(transactionDTO.recipient().assetAccountId());
+        Optional<AssetAccount> recipientAssetAccountOptional = this.assetAccountRepository.findById(transactionDTO.recipient().assetAccountId());
         if (recipientAssetAccountOptional.isPresent()) {
             recipentAssetAccount = recipientAssetAccountOptional.get();
         } else {
             throw new IllegalArgumentException("Recipient asset account not found with ID: " + transactionDTO.recipient().assetAccountId());
         }
 
-        Optional<AssetAccount> sourceAssetAccountOptional = this.assetsAccountRepository.findById(transactionDTO.payer().assetAccountId());
+        Optional<AssetAccount> sourceAssetAccountOptional = this.assetAccountRepository.findById(transactionDTO.payer().assetAccountId());
         if (sourceAssetAccountOptional.isPresent()) {
             sourceAssetAccount = sourceAssetAccountOptional.get();
         } else {
@@ -65,28 +65,7 @@ public class CreateTransactionImpl implements CreateTransaction {
         );
     }
 
-    private Transaction createTransaction(TransactionDto transactionDTO, AssetAccount recipientAssetAccount, AssetAccount payerAssetAccount, ZSUser user) {
-        Transaction transaction = createBasicTransaction(transactionDTO, user);
-        transaction.setType(transactionDTO.type());
-
-        transaction.setRecipient(recipientAssetAccount);
-
-        transaction.setPayer(payerAssetAccount);
-
-        Transaction savedTransactions = this.transactionRepository.save(transaction);
-
-        BigDecimal newSourceAccountBalance = payerAssetAccount.getBalance().subtract(savedTransactions.getAmount());
-        payerAssetAccount.setBalance(newSourceAccountBalance);
-        this.assetsAccountRepository.save(payerAssetAccount);
-
-        BigDecimal newRecipientAccountBalance = recipientAssetAccount.getBalance().add(savedTransactions.getAmount());
-        recipientAssetAccount.setBalance(newRecipientAccountBalance);
-        this.assetsAccountRepository.save(recipientAssetAccount);
-
-        return savedTransactions;
-    }
-
-    private Transaction createBasicTransaction(TransactionDto transactionDTO, ZSUser user) {
+    private Transaction createTransaction(TransactionDto transactionDTO, AssetAccount recipientAssetAccount, AssetAccount sourceAssetAccount, ZSUser user) {
         Transaction transaction = new Transaction();
         transaction.setAmount(transactionDTO.amount());
         if (transactionDTO.date() != null) {
@@ -96,7 +75,21 @@ public class CreateTransactionImpl implements CreateTransaction {
         }
         transaction.setCategory(transactionDTO.category());
         transaction.setUser(user);
-        return transaction;
+        transaction.setType(transactionDTO.type());
+        transaction.setRecipient(recipientAssetAccount);
+        transaction.setPayer(sourceAssetAccount);
+
+        Transaction savedTransactions = this.transactionRepository.save(transaction);
+
+        BigDecimal newSourceAccountBalance = sourceAssetAccount.getBalance().subtract(savedTransactions.getAmount());
+        sourceAssetAccount.setBalance(newSourceAccountBalance);
+        this.assetAccountRepository.save(sourceAssetAccount);
+
+        BigDecimal newRecipientAccountBalance = recipientAssetAccount.getBalance().add(savedTransactions.getAmount());
+        recipientAssetAccount.setBalance(newRecipientAccountBalance);
+        this.assetAccountRepository.save(recipientAssetAccount);
+
+        return savedTransactions;
     }
 
 }
