@@ -1,4 +1,4 @@
-package com.decrux.zenspent.services.gettransactions;
+package com.decrux.zenspent.services.get_transactions;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.dtos.PaginationRequestDto;

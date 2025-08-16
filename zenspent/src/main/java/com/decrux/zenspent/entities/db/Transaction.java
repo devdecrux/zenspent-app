@@ -26,12 +26,12 @@ public class Transaction {
     private String category;
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "recipient_asset_account_id")
-    private AssetAccount recipient;
+    @JoinColumn(name = "recipient_account_id")
+    private Account recipient;
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "payer_asset_account_id")
-    private AssetAccount payer;
+    @JoinColumn(name = "payer_account_id")
+    private Account payer;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private ZSUser user;

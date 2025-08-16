@@ -1,7 +1,7 @@
 package com.decrux.zenspent.entities.db;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
-import com.decrux.zenspent.entities.enums.AssetAccountTypes;
+import com.decrux.zenspent.entities.enums.AccountTypes;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,16 +14,16 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "zs_assets_accounts")
-public class AssetAccount {
+@Table(name = "zs_accounts")
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long assetAccountId;
+    private Long accountId;
     private String name;
     private BigDecimal balance;
     @Enumerated(EnumType.STRING)
-    private AssetAccountTypes type;
+    private AccountTypes type;
     private String description;
     private LocalDate date;
     @JsonManagedReference

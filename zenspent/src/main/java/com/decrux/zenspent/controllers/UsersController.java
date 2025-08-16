@@ -3,7 +3,7 @@ package com.decrux.zenspent.controllers;
 import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.dtos.RegisterUserDto;
 import com.decrux.zenspent.entities.dtos.ZSUserDto;
-import com.decrux.zenspent.services.userregistration.RegisterUser;
+import com.decrux.zenspent.services.user_registration.RegisterUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
-public class UserController {
+public class UsersController {
 
     private final RegisterUser registerUser;
 

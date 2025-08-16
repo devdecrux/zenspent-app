@@ -1,4 +1,4 @@
-package com.decrux.zenspent.services.gettransactions;
+package com.decrux.zenspent.services.get_transactions;
 
 import com.decrux.zenspent.entities.db.Transaction;
 import com.decrux.zenspent.entities.db.auth.ZSUser;
@@ -29,7 +29,7 @@ public class GetTransactionsImpl implements GetTransactions {
                 transactions.stream()
                         .map(transaction -> new TransactionDto(
                                 transaction.getTransactionId(),
-                                new TransactionParticipantDto(transaction.getRecipient().getName(), transaction.getRecipient().getAssetAccountId()),
+                                new TransactionParticipantDto(transaction.getRecipient().getName(), transaction.getRecipient().getAccountId()),
                                 transaction.getType(),
                                 transaction.getAmount(),
                                 transaction.getCategory(),
@@ -40,7 +40,7 @@ public class GetTransactionsImpl implements GetTransactions {
                                         .firstName(transaction.getUser().getFirstName())
                                         .lastName(transaction.getUser().getLastName())
                                         .build(),
-                                new TransactionParticipantDto(transaction.getPayer().getName(), transaction.getPayer().getAssetAccountId())
+                                new TransactionParticipantDto(transaction.getPayer().getName(), transaction.getPayer().getAccountId())
                         ))
                         .toList(),
                 transactions.getTotalPages(),

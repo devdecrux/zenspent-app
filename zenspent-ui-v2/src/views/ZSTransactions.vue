@@ -4,7 +4,7 @@ import { ref } from 'vue'
 import type { PaginationResult } from '@/entities/PaginationResult.ts'
 import type { Transaction } from '@/entities/Transaction.ts'
 import ZTable from '@/components/ztable/ZTable.vue'
-import { transactionColumns } from '@/components/ztable/transaction-columns.ts'
+import { transactionColumns } from '@/components/ztable/Transaction-columns.ts'
 import {
   Dialog,
   DialogContent,
@@ -85,7 +85,7 @@ const createTransaction = () => {
         <Button>Add Transaction</Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader> Create transaction</DialogHeader>
+        <DialogHeader> Create Transaction</DialogHeader>
         <div class="flex flex-col lg:flex-row gap-2">
           <Select>
             <SelectTrigger class="w-full">

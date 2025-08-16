@@ -1,4 +1,4 @@
-package com.decrux.zenspent.services.userregistration;
+package com.decrux.zenspent.services.user_registration;
 
 import com.decrux.zenspent.entities.dtos.RegisterUserDto;
 

@@ -1,6 +1,6 @@
 package com.decrux.zenspent.entities.enums;
 
-public enum AssetAccountTypes {
+public enum AccountTypes {
     REVENUE,
     CHECKING,
     SAVINGS,

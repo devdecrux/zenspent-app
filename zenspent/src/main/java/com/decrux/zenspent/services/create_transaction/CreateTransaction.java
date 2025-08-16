@@ -1,4 +1,4 @@
-package com.decrux.zenspent.services.createtransaction;
+package com.decrux.zenspent.services.create_transaction;
 
 import com.decrux.zenspent.entities.db.auth.ZSUser;
 import com.decrux.zenspent.entities.dtos.TransactionDto;
