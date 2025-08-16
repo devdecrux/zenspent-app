@@ -1,6 +1,6 @@
 import { h } from 'vue'
 import type { ColumnDef } from '@tanstack/vue-table'
-import TableActions from '@/views/TableActions.vue'
+import ZsTableActions from '@/components/ZSTableActions.vue'
 import type { AssetAccount } from '@/entities/AssetAccount.ts'
 import { Edit, Trash2 } from 'lucide-vue-next'
 
@@ -11,7 +11,7 @@ export const assetAccountColumns: ColumnDef<AssetAccount>[] = [
     cell: ({ row }) => {
       const id = row.getValue('id') as number
       return h('div', { class: 'text-right font-bold' }, id)
-    }
+    },
   },
   {
     accessorKey: 'name',
@@ -19,7 +19,7 @@ export const assetAccountColumns: ColumnDef<AssetAccount>[] = [
     cell: ({ row }) => {
       const name = row.getValue('name') as string
       return h('div', { class: 'text-right font-bold' }, name)
-    }
+    },
   },
   {
     accessorKey: 'balance',
@@ -28,10 +28,10 @@ export const assetAccountColumns: ColumnDef<AssetAccount>[] = [
       const balance = row.getValue('balance') as bigint
       const formattedBalance = new Intl.NumberFormat('bg-BG', {
         style: 'currency',
-        currency: 'BGN'
+        currency: 'BGN',
       }).format(balance)
       return h('div', { class: 'text-right font-bold' }, formattedBalance)
-    }
+    },
   },
   {
     accessorKey: 'description',
@@ -39,7 +39,7 @@ export const assetAccountColumns: ColumnDef<AssetAccount>[] = [
     cell: ({ row }) => {
       const description = row.getValue('description') as string
       return h('div', { class: 'text-right font-bold' }, description)
-    }
+    },
   },
   {
     id: 'actions',
@@ -49,25 +49,25 @@ export const assetAccountColumns: ColumnDef<AssetAccount>[] = [
       return h(
         'div',
         { class: 'text-right' },
-        h(TableActions, {
-          actions: tableActions(assetAccount)
-        })
+        h(ZsTableActions, {
+          actions: tableActions(assetAccount),
+        }),
       )
-    }
-  }
+    },
+  },
 ]
 
 const tableActions = (rowData: AssetAccount) => [
   {
     label: 'Edit',
     icon: Edit,
-    onClick: () => editItem(rowData as AssetAccount)
+    onClick: () => editItem(rowData as AssetAccount),
   },
   {
     label: 'Delete',
     icon: Trash2,
-    onClick: () => deleteItem(rowData.id)
-  }
+    onClick: () => deleteItem(rowData.id),
+  },
 ]
 
 function deleteItem(id: number) {

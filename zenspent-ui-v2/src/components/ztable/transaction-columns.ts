@@ -1,7 +1,7 @@
 import { h } from 'vue'
 import type { ColumnDef } from '@tanstack/vue-table'
 import type { Transaction } from '@/entities/Transaction.ts'
-import TableActions from '@/views/TableActions.vue'
+import ZsTableActions from '@/components/ZSTableActions.vue'
 import type { TransactionParticipant } from '@/entities/TransactionParticipant.ts'
 import type { User } from '@/entities/User.ts'
 import { Edit, Trash2 } from 'lucide-vue-next'
@@ -13,7 +13,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const id = row.getValue('id') as number
       return h('div', { class: 'text-right font-bold' }, id)
-    }
+    },
   },
   {
     accessorKey: 'recipient',
@@ -21,7 +21,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const recipient = row.getValue('recipient') as TransactionParticipant
       return h('div', { class: 'text-right font-bold' }, recipient.name)
-    }
+    },
   },
   {
     accessorKey: 'payer',
@@ -29,7 +29,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const payer = row.getValue('payer') as TransactionParticipant
       return h('div', { class: 'text-right font-bold' }, payer.name)
-    }
+    },
   },
   {
     accessorKey: 'amount',
@@ -38,10 +38,10 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
       const amount = row.getValue('amount') as bigint
       const formattedAmount = new Intl.NumberFormat('bg-BG', {
         style: 'currency',
-        currency: 'BGN'
+        currency: 'BGN',
       }).format(amount)
       return h('div', { class: 'text-right font-bold' }, formattedAmount)
-    }
+    },
   },
   {
     accessorKey: 'category',
@@ -49,7 +49,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const category = row.getValue('category') as string
       return h('div', { class: 'text-right font-bold' }, category)
-    }
+    },
   },
   {
     accessorKey: 'date',
@@ -59,10 +59,10 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
       const formattedDate = new Intl.DateTimeFormat('bg-BG', {
         day: '2-digit',
         month: '2-digit',
-        year: 'numeric'
+        year: 'numeric',
       }).format(new Date(date))
       return h('div', { class: 'text-right font-bold' }, formattedDate)
-    }
+    },
   },
   {
     accessorKey: 'user',
@@ -70,7 +70,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const user = row.getValue('user') as User
       return h('div', { class: 'text-right font-bold' }, user.firstName + ' ' + user.lastName)
-    }
+    },
   },
   {
     id: 'actions',
@@ -80,25 +80,25 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
       return h(
         'div',
         { class: 'text-right' },
-        h(TableActions, {
-          actions: tableActions(transaction)
-        })
+        h(ZsTableActions, {
+          actions: tableActions(transaction),
+        }),
       )
-    }
-  }
+    },
+  },
 ]
 
 const tableActions = (rowData: Transaction) => [
   {
     label: 'Edit',
     icon: Edit,
-    onClick: () => editItem(rowData as Transaction)
+    onClick: () => editItem(rowData as Transaction),
   },
   {
     label: 'Delete',
     icon: Trash2,
-    onClick: () => deleteItem(rowData.id)
-  }
+    onClick: () => deleteItem(rowData.id),
+  },
 ]
 
 function deleteItem(id: number) {

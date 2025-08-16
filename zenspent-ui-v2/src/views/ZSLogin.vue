@@ -11,7 +11,7 @@ import { useSelectMenuDataStore } from '@/stores/select_menu_data.ts'
 
 const email = ref('')
 const password = ref('')
-let isAlert = ref(false)
+const isAlert = ref(false)
 
 const userStore = useUserStore()
 const loadSelectData = useSelectMenuDataStore()
@@ -24,11 +24,11 @@ const login = () => {
       '/api/v1/user/login',
       {
         username: email.value,
-        password: password.value
+        password: password.value,
       },
       {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      }
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      },
     )
     .then((response) => {
       if (response.status === 200) {

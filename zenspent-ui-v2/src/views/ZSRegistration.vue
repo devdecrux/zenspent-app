@@ -11,7 +11,7 @@ const firstName = ref('')
 const lastName = ref('')
 const password = ref('')
 const email = ref('')
-let isAlert = ref(false)
+const isAlert = ref(false)
 
 const register = () => {
   axios.defaults.withXSRFToken = true

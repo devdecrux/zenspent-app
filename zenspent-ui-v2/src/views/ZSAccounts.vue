@@ -30,8 +30,8 @@ const loadTableData = () => {
     .get('/api/v1/asset-accounts', {
       params: {
         pageNumber: serverPageNumber.value,
-        pageSize: serverPageSize.value
-      }
+        pageSize: serverPageSize.value,
+      },
     })
     .then((response) => {
       if (response.status === 200) {
@@ -67,7 +67,7 @@ const loadTableData = () => {
                 v-for="type in selectData.assetAccountTypes"
                 :value="type.value"
                 v-bind:key="type.value"
-              >{{ type.label }}
+                >{{ type.label }}
               </SelectItem>
             </SelectContent>
           </Select>

@@ -4,16 +4,11 @@ import { computed, onMounted } from 'vue'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import ZSidebar from '@/components/ZSidebar.vue'
 import { loadCSRFToken } from '@/utils/LoadCSRFToken'
-import { useUserStore } from '@/stores/user.ts'
-import { useSelectMenuDataStore } from '@/stores/select_menu_data.ts'
 
 const route = useRoute()
 const isLoginOrRegistrationPage = computed(() => {
   return route.fullPath === '/registration' || route.fullPath === '/login'
 })
-
-const userStore = useUserStore()
-const loadSelectData = useSelectMenuDataStore()
 
 onMounted(() => {
   const appMode = import.meta.env.VITE_APP_MODE

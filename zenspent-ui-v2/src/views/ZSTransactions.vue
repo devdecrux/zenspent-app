@@ -33,8 +33,8 @@ const loadTableData = () => {
     .get('/api/v1/transactions', {
       params: {
         pageNumber: serverPageNumber.value,
-        pageSize: serverPageSize.value
-      }
+        pageSize: serverPageSize.value,
+      },
     })
     .then((response) => {
       if (response.status === 200) {
@@ -54,7 +54,7 @@ function handlePaginationUpdate(pageIndex: number, pageSize: number) {
 const df = new Intl.DateTimeFormat('bg-BG', {
   year: 'numeric',
   month: '2-digit',
-  day: '2-digit'
+  day: '2-digit',
 })
 
 const selectData = useSelectMenuDataStore()
@@ -119,7 +119,7 @@ const createTransaction = () => {
                 v-for="type in selectData.transactionTypes"
                 :value="type.value"
                 v-bind:key="type.value"
-              >{{ type.label }}
+                >{{ type.label }}
               </SelectItem>
             </SelectContent>
           </Select>
