@@ -5,9 +5,23 @@ import type { PaginationResult } from '@/entities/PaginationResult.ts'
 import type { Transaction } from '@/entities/Transaction.ts'
 import ZTable from '@/components/ztable/ZTable.vue'
 import { transactionColumns } from '@/components/ztable/transaction-columns.ts'
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils.ts'
