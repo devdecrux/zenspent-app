@@ -2,11 +2,11 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { TransactionType } from '@/entities/TransactionType.ts'
 import axios from 'axios'
-import type { AssetAccountType } from '@/entities/AssetAccountType.ts'
+import type { AccountType } from '@/entities/AccountType.ts'
 
 export const useSelectMenuDataStore = defineStore('select_menu_data', () => {
   const transactionTypes = ref<TransactionType[]>([])
-  const assetAccountTypes = ref<AssetAccountType[]>([])
+  const accountTypes = ref<AccountType[]>([])
 
   function loadTransactionTypes() {
     console.log('Transaction types: ', transactionTypes.value)
@@ -27,35 +27,35 @@ export const useSelectMenuDataStore = defineStore('select_menu_data', () => {
       })
   }
 
-  function loadAssetAccountTypes() {
-    console.log('Asset Account types: ', assetAccountTypes.value)
+  function loadAccountTypes() {
+    console.log('Account types: ', accountTypes.value)
     if (transactionTypes.value.length > 0) {
       return
     }
     axios.defaults.withXSRFToken = true
     axios.defaults.withCredentials = true
     axios
-      .get('/api/v1/asset-accounts/types')
+      .get('/api/v1/accounts/types')
       .then((response) => {
         if (response.status === 200) {
-          assetAccountTypes.value = response.data
+          accountTypes.value = response.data
         }
       })
       .catch((error) => {
-        console.error('Error loading asset account types:', error)
+        console.error('Error loading account types:', error)
       })
   }
 
   function clearLoadedData() {
     transactionTypes.value = []
-    assetAccountTypes.value = []
+    accountTypes.value = []
   }
 
   return {
     transactionTypes,
-    assetAccountTypes,
+    accountTypes: accountTypes,
     loadTransactionTypes,
-    loadAssetAccountTypes,
-    clearLoadedData
+    loadAccountTypes: loadAccountTypes,
+    clearLoadedData,
   }
 })

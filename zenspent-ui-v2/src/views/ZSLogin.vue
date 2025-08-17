@@ -67,7 +67,7 @@ const initSelectData = () => {
       loadSelectData.loadTransactionTypes()
     }
     if (loadSelectData.transactionTypes.length === 0) {
-      loadSelectData.loadAssetAccountTypes()
+      loadSelectData.loadAccountTypes()
     }
   }
 }

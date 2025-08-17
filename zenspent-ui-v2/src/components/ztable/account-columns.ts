@@ -1,10 +1,10 @@
 import { h } from 'vue'
 import type { ColumnDef } from '@tanstack/vue-table'
 import ZsTableActions from '@/components/ZSTableActions.vue'
-import type { AssetAccount } from '@/entities/AssetAccount.ts'
+import type { Account } from '@/entities/Account.ts'
 import { Edit, Trash2 } from 'lucide-vue-next'
 
-export const assetAccountColumns: ColumnDef<AssetAccount>[] = [
+export const accountColumns: ColumnDef<Account>[] = [
   {
     accessorKey: 'id',
     header: () => h('div', { class: 'text-right' }, 'Id'),
@@ -45,23 +45,23 @@ export const assetAccountColumns: ColumnDef<AssetAccount>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const assetAccount = row.original
+      const account = row.original
       return h(
         'div',
         { class: 'text-right' },
         h(ZsTableActions, {
-          actions: tableActions(assetAccount),
+          actions: tableActions(account),
         }),
       )
     },
   },
 ]
 
-const tableActions = (rowData: AssetAccount) => [
+const tableActions = (rowData: Account) => [
   {
     label: 'Edit',
     icon: Edit,
-    onClick: () => editItem(rowData as AssetAccount),
+    onClick: () => editItem(rowData as Account),
   },
   {
     label: 'Delete',
@@ -75,7 +75,7 @@ function deleteItem(id: number) {
   console.log('Deleting row with ID:', id)
 }
 
-function editItem(assetAccount: AssetAccount) {
+function editItem(account: Account) {
   // TODO: Logic to edit the item
-  console.log('Editing row:', assetAccount)
+  console.log('Editing row:', account)
 }

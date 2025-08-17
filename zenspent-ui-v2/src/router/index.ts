@@ -31,8 +31,8 @@ const router = createRouter({
       component: ZsTransactions,
     },
     {
-      path: '/asset-accounts',
-      name: 'asset-accounts',
+      path: '/accounts',
+      name: 'accounts',
       component: ZsAccounts,
     },
     // {
@@ -53,8 +53,7 @@ const router = createRouter({
   ],
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   const userStore = useUserStore()
   console.log('Authenticated user: ', userStore.user)
   if (userStore.user == null && to.name !== 'login' && to.name !== 'registration') {

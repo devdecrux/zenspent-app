@@ -1,4 +1,4 @@
 export interface TransactionParticipant {
   name: string
-  assetAccountId: number
+  accountId: number
 }

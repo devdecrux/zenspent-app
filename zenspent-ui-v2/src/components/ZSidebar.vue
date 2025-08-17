@@ -9,11 +9,25 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  type SidebarProps
+  type SidebarProps,
 } from '@/components/ui/sidebar'
-import { ArrowUpDown, ChevronsUpDown, Home, LogOut, RotateCw, Settings, WalletMinimal } from 'lucide-vue-next'
+import {
+  ArrowUpDown,
+  ChevronsUpDown,
+  Home,
+  LogOut,
+  RotateCw,
+  Settings,
+  WalletMinimal,
+} from 'lucide-vue-next'
 import { Separator } from '@/components/ui/separator'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Icon } from '@iconify/vue'
@@ -25,13 +39,13 @@ import router from '@/router'
 const routes = [
   { name: 'Dashboard', path: '/dashboard', icon: Home, enabled: true },
   { name: 'Transactions', path: '/transactions', icon: ArrowUpDown, enabled: true },
-  { name: 'Asset Accounts', path: '/asset-accounts', icon: WalletMinimal, enabled: true },
+  { name: 'Accounts', path: '/accounts', icon: WalletMinimal, enabled: true },
   { name: 'Subscriptions', path: '/subscriptions', icon: RotateCw, enabled: false },
-  { name: 'Settings', path: '/settings', icon: Settings, enabled: false }
+  { name: 'Settings', path: '/settings', icon: Settings, enabled: false },
 ]
 
 const props = withDefaults(defineProps<SidebarProps>(), {
-  collapsible: 'icon'
+  collapsible: 'icon',
 })
 
 const mode = useColorMode()
@@ -46,8 +60,8 @@ const logout = () => {
       '/api/v1/user/logout',
       {},
       {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      }
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      },
     )
     .then((response) => {
       if (response.status === 200) {
@@ -153,8 +167,8 @@ const logout = () => {
                 </Avatar>
                 <div class="grid flex-1 text-left text-sm leading-tight">
                   <span class="truncate font-semibold">{{
-                      userStore.user?.firstName + ' ' + userStore.user?.lastName
-                    }}</span>
+                    userStore.user?.firstName + ' ' + userStore.user?.lastName
+                  }}</span>
                   <span class="truncate text-xs">{{ userStore.user?.email }}</span>
                 </div>
                 <ChevronsUpDown class="ml-auto size-4" />
