@@ -18,11 +18,6 @@ const serverPageSize = ref(10)
 
 const accounts = ref<PaginationResult<Account> | null>(null)
 
-function handlePaginationUpdate(pageIndex: number, pageSize: number) {
-  serverPageNumber.value = pageIndex
-  serverPageSize.value = pageSize
-}
-
 const loadTableData = () => {
   axios.defaults.withXSRFToken = true
   axios.defaults.withCredentials = true
@@ -41,6 +36,11 @@ const loadTableData = () => {
     .catch((error) => {
       console.error('Error loading accounts:', error)
     })
+}
+
+function handlePaginationUpdate(pageIndex: number, pageSize: number) {
+  serverPageNumber.value = pageIndex
+  serverPageSize.value = pageSize
 }
 </script>
 
