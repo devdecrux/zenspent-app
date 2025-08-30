@@ -1,7 +1,20 @@
 <script setup lang="ts" generic="TData, TValue">
-import { type ColumnDef, FlexRender, getCoreRowModel, type PaginationState, useVueTable } from '@tanstack/vue-table'
+import {
+  type ColumnDef,
+  FlexRender,
+  getCoreRowModel,
+  type PaginationState,
+  useVueTable,
+} from '@tanstack/vue-table'
 import { Button } from '@/components/ui/button'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { onMounted } from 'vue'
 
 const props = defineProps<{
@@ -46,23 +59,23 @@ const table = useVueTable({
     get pagination() {
       return {
         pageIndex: props.serverPageNumber,
-        pageSize: props.serverPageSize
+        pageSize: props.serverPageSize,
       }
-    }
+    },
   },
   onPaginationChange: (updater) => {
     if (typeof updater === 'function') {
       setPagination(
         updater({
           pageIndex: props.serverPageNumber,
-          pageSize: props.serverPageSize
-        })
+          pageSize: props.serverPageSize,
+        }),
       )
     } else {
       setPagination(updater)
     }
     props.loadDataTable()
-  }
+  },
 })
 
 onMounted(() => {

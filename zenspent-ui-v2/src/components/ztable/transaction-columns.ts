@@ -1,7 +1,7 @@
 import { h } from 'vue'
 import type { ColumnDef } from '@tanstack/vue-table'
 import type { Transaction } from '@/entities/Transaction.ts'
-import ZsTableActions from '@/components/ZSTableActions.vue'
+import TableActionsComponent from '@/components/TableActionsComponent.vue'
 import type { TransactionParticipant } from '@/entities/TransactionParticipant.ts'
 import type { User } from '@/entities/User.ts'
 import { Edit, Trash2 } from 'lucide-vue-next'
@@ -11,7 +11,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     accessorKey: 'id',
     header: () => h('div', { class: 'text-right' }, 'Id'),
     cell: ({ row }) => {
-      const id = row.getValue('id') as number
+      const id = row.getValue('id') as string
       return h('div', { class: 'text-right font-bold' }, id)
     },
   },
@@ -80,7 +80,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
       return h(
         'div',
         { class: 'text-right' },
-        h(ZsTableActions, {
+        h(TableActionsComponent, {
           actions: tableActions(transaction),
         }),
       )
@@ -101,7 +101,7 @@ const tableActions = (rowData: Transaction) => [
   },
 ]
 
-function deleteItem(id: number) {
+function deleteItem(id: string) {
   // TODO: Logic to delete the row
   console.log('Deleting row with ID:', id)
 }

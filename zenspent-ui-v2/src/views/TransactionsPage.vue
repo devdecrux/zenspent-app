@@ -3,8 +3,8 @@ import axios from 'axios'
 import { ref } from 'vue'
 import type { PaginationResult } from '@/entities/PaginationResult.ts'
 import type { Transaction } from '@/entities/Transaction.ts'
-import ZTable from '@/components/ztable/ZTable.vue'
-import { transactionColumns } from '@/components/ztable/Transaction-columns.ts'
+import TableComponent from '@/components/ztable/TableComponent.vue'
+import { transactionColumns } from '@/components/ztable/transaction-columns.ts'
 import {
   Dialog,
   DialogContent,
@@ -32,13 +32,46 @@ import { CalendarIcon } from 'lucide-vue-next'
 
 import { getLocalTimeZone } from '@internationalized/date'
 import { useSelectMenuDataStore } from '@/stores/select_menu_data.ts'
+import type { TransactionParticipant } from '@/entities/TransactionParticipant.ts'
+import type { User } from '@/entities/User.ts'
 
 const serverPageNumber = ref(0)
 const serverPageSize = ref(10)
 
+const dialogState = ref(false)
+
+// TODO: Change date to string and use only one variable not two - transaction.date and date
 const date = ref<DateValue>()
 
 const transactions = ref<PaginationResult<Transaction> | null>(null)
+
+const payer = ref<TransactionParticipant>({
+  accountId: '',
+  name: '',
+})
+
+const recipient = ref<TransactionParticipant>({
+  accountId: '',
+  name: '',
+})
+
+const user = ref<User>({
+  username: '',
+  email: '',
+  firstName: '',
+  lastName: '',
+})
+
+const transaction = ref<Transaction>({
+  id: '',
+  amount: '',
+  type: '',
+  date: '',
+  category: '',
+  recipient: recipient.value,
+  payer: payer.value,
+  user: user.value,
+})
 
 const loadTableData = () => {
   axios.defaults.withXSRFToken = true
@@ -60,6 +93,35 @@ const loadTableData = () => {
     })
 }
 
+const createTransaction = () => {
+  axios.defaults.withXSRFToken = true
+  axios.defaults.withCredentials = true
+  axios
+    .post('/api/v1/transactions', transaction.value)
+    .then((response) => {
+      if (response.status === 201) {
+        console.log('motherfuckersss')
+        // TODO: only add the new transaction to the list instead of reloading all data?
+        loadTableData() // Refresh the table data
+        // reset the account form
+        transaction.value = {
+          id: '',
+          amount: '',
+          type: '',
+          date: '',
+          category: '',
+          recipient: { accountId: '', name: '' },
+          payer: { accountId: '', name: '' },
+          user: { username: '', email: '', firstName: '', lastName: '' },
+        }
+        dialogState.value = false
+      }
+    })
+    .catch((error) => {
+      console.error('Error creating account:', error)
+    })
+}
+
 function handlePaginationUpdate(pageIndex: number, pageSize: number) {
   serverPageNumber.value = pageIndex
   serverPageSize.value = pageSize
@@ -72,59 +134,53 @@ const df = new Intl.DateTimeFormat('bg-BG', {
 })
 
 const selectData = useSelectMenuDataStore()
-
-const createTransaction = () => {
-  console.log('Date selected: ', date.value?.toDate(getLocalTimeZone()))
-}
 </script>
 
 <template>
   <div class="flex mb-2">
-    <Dialog>
+    <Dialog v-model:open="dialogState">
       <DialogTrigger as-child>
         <Button>Add Transaction</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader> Create Transaction</DialogHeader>
         <div class="flex flex-col lg:flex-row gap-2">
-          <Select>
+          <Select v-model="transaction.recipient.accountId">
             <SelectTrigger class="w-full">
               <SelectValue placeholder="Select a recipient" />
             </SelectTrigger>
             <SelectContent>
-              <SelectGroup>
-                <SelectLabel class="font-medium">Expense Accounts</SelectLabel>
-                <SelectItem value="netflix">Netflix</SelectItem>
-                <SelectItem value="car-leasing">Car leasing</SelectItem>
-              </SelectGroup>
-              <SelectGroup>
-                <SelectLabel class="font-medium">Check Accounts</SelectLabel>
-                <SelectItem value="dsk">DSK</SelectItem>
-                <SelectItem value="revolut">Revolut</SelectItem>
+              <SelectGroup
+                v-for="[type, accounts] in Object.entries(selectData.accountsGroupedByType)"
+                :key="type"
+              >
+                <SelectLabel class="font-medium">{{ type }}</SelectLabel>
+                <SelectItem v-for="account in accounts" :key="account.id" :value="account.id">
+                  {{ account.name }}
+                </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Select>
+          <Select v-model="transaction.payer.accountId">
             <SelectTrigger class="w-full">
               <SelectValue placeholder="Select a payer" />
             </SelectTrigger>
             <SelectContent>
-              <SelectGroup>
-                <SelectLabel class="font-medium">Expense Accounts</SelectLabel>
-                <SelectItem value="netflix">Netflix</SelectItem>
-                <SelectItem value="car-leasing">Car leasing</SelectItem>
-              </SelectGroup>
-              <SelectGroup>
-                <SelectLabel class="font-medium">Check Accounts</SelectLabel>
-                <SelectItem value="dsk">DSK</SelectItem>
-                <SelectItem value="revolut">Revolut</SelectItem>
+              <SelectGroup
+                v-for="[type, accounts] in Object.entries(selectData.accountsGroupedByType)"
+                :key="type"
+              >
+                <SelectLabel class="font-medium">{{ type }}</SelectLabel>
+                <SelectItem v-for="account in accounts" :key="account.id" :value="account.id">
+                  {{ account.name }}
+                </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
         <div class="flex flex-col lg:flex-row gap-2">
-          <Input id="amount" type="text" placeholder="Amount" />
-          <Select>
+          <Input id="amount" type="text" placeholder="Amount" v-model="transaction.amount" />
+          <Select v-model="transaction.type">
             <SelectTrigger class="w-full">
               <SelectValue placeholder="Select a type" />
             </SelectTrigger>
@@ -139,7 +195,7 @@ const createTransaction = () => {
           </Select>
         </div>
         <div class="flex flex-col lg:flex-row gap-2">
-          <Select>
+          <Select v-model="transaction.category">
             <SelectTrigger class="w-full">
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
@@ -172,7 +228,7 @@ const createTransaction = () => {
     </Dialog>
   </div>
 
-  <ZTable
+  <TableComponent
     :data="transactions?.content ?? []"
     :columns="transactionColumns"
     :total-items="transactions?.totalItems ?? 0"

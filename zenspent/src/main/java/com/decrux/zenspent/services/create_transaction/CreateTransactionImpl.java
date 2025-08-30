@@ -68,7 +68,7 @@ public class CreateTransactionImpl implements CreateTransaction {
     private Transaction createTransaction(TransactionDto transactionDTO, Account recipientAccount, Account sourceAccount, ZSUser user) {
         Transaction Transaction = new Transaction();
         Transaction.setAmount(transactionDTO.amount());
-        if (transactionDTO.date() != null) {
+        if (transactionDTO.date() != null && !transactionDTO.date().isEmpty()) {
             Transaction.setDate(LocalDate.parse(transactionDTO.date()));
         } else {
             Transaction.setDate(LocalDate.now());

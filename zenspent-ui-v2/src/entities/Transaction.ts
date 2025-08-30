@@ -2,10 +2,10 @@ import type { User } from '@/entities/User.ts'
 import type { TransactionParticipant } from '@/entities/TransactionParticipant.ts'
 
 export interface Transaction {
-  id: number
+  id: string
   recipient: TransactionParticipant
   type: string
-  amount: bigint
+  amount: string
   category: string
   date: string
   payer: TransactionParticipant

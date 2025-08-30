@@ -1,7 +1,7 @@
 export interface Account {
-  id: number
+  id: string
   name: string
-  balance: bigint
+  balance: string
   type: string
   description: string
 }

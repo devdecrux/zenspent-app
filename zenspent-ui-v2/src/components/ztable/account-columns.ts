@@ -1,6 +1,6 @@
 import { h } from 'vue'
 import type { ColumnDef } from '@tanstack/vue-table'
-import ZsTableActions from '@/components/ZSTableActions.vue'
+import TableActionsComponent from '@/components/TableActionsComponent.vue'
 import type { Account } from '@/entities/Account.ts'
 import { Edit, Trash2 } from 'lucide-vue-next'
 
@@ -9,7 +9,7 @@ export const accountColumns: ColumnDef<Account>[] = [
     accessorKey: 'id',
     header: () => h('div', { class: 'text-right' }, 'Id'),
     cell: ({ row }) => {
-      const id = row.getValue('id') as number
+      const id = row.getValue('id') as string
       return h('div', { class: 'text-right font-bold' }, id)
     },
   },
@@ -49,7 +49,7 @@ export const accountColumns: ColumnDef<Account>[] = [
       return h(
         'div',
         { class: 'text-right' },
-        h(ZsTableActions, {
+        h(TableActionsComponent, {
           actions: tableActions(account),
         }),
       )
@@ -70,7 +70,7 @@ const tableActions = (rowData: Account) => [
   },
 ]
 
-function deleteItem(id: number) {
+function deleteItem(id: string) {
   // TODO: Logic to delete the row
   console.log('Deleting row with ID:', id)
 }

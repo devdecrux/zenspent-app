@@ -8,6 +8,7 @@ import com.decrux.zenspent.entities.dtos.PaginationResultDto;
 import com.decrux.zenspent.services.create_account.CreateAccount;
 import com.decrux.zenspent.services.get_accounts.GetAccounts;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +31,8 @@ public class AccountsController {
     }
 
     @PostMapping
-    public AccountDto createAccount(@RequestBody AccountDto AccountDto, @AuthenticationPrincipal ZSUser user) {
-        return this.createAccount.createAccount(AccountDto, user);
+    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto AccountDto, @AuthenticationPrincipal ZSUser user) {
+        return ResponseEntity.status(201).body(this.createAccount.createAccount(AccountDto, user));
     }
 
     @GetMapping("/types")

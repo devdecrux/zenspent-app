@@ -66,8 +66,11 @@ const initSelectData = () => {
     if (loadSelectData.transactionTypes.length === 0) {
       loadSelectData.loadTransactionTypes()
     }
-    if (loadSelectData.transactionTypes.length === 0) {
+    if (loadSelectData.accountTypes.length === 0) {
       loadSelectData.loadAccountTypes()
+    }
+    if (loadSelectData.accounts.length === 0) {
+      loadSelectData.loadAccounts()
     }
   }
 }

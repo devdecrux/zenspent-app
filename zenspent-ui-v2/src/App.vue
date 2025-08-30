@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router'
 import { computed, onMounted } from 'vue'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import ZSidebar from '@/components/ZSidebar.vue'
+import SidebarComponent from '@/components/SidebarComponent.vue'
 import { loadCSRFToken } from '@/utils/LoadCSRFToken'
 
 const route = useRoute()
@@ -22,7 +22,7 @@ onMounted(() => {
 
 <template>
   <SidebarProvider v-if="!isLoginOrRegistrationPage">
-    <ZSidebar />
+    <SidebarComponent />
     <div class="flex flex-col flex-1">
       <SidebarTrigger class="lg:hidden" />
       <div class="p-2">

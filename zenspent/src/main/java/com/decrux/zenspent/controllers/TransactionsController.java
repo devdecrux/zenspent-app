@@ -8,6 +8,7 @@ import com.decrux.zenspent.entities.dtos.TransactionTypeDto;
 import com.decrux.zenspent.services.create_transaction.CreateTransaction;
 import com.decrux.zenspent.services.get_transactions.GetTransactions;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +31,8 @@ public class TransactionsController {
     }
 
     @PostMapping
-    public TransactionDto createTransaction(@RequestBody TransactionDto transactionDTO, @AuthenticationPrincipal ZSUser user) {
-        return this.createTransaction.createTransaction(transactionDTO, user);
+    public ResponseEntity<TransactionDto> createTransaction(@RequestBody TransactionDto transactionDTO, @AuthenticationPrincipal ZSUser user) {
+        return ResponseEntity.status(201).body(this.createTransaction.createTransaction(transactionDTO, user));
     }
 
     @GetMapping("/types")
