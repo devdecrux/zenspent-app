@@ -19,7 +19,7 @@ onMounted(() => {
   }
 })
 </script>
-<!--fuck off-->
+
 <template>
   <SidebarProvider v-if="!isLoginOrRegistrationPage">
     <SidebarComponent />

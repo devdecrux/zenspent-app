@@ -55,6 +55,7 @@ const createAccount = () => {
     .then((response) => {
       if (response.status === 201) {
         // TODO: only add the new account to the list instead of reloading all data?
+        // fuck off
         loadTableData() // Refresh the table data
         // reset the account form
         account.value = { id: '', name: '', balance: '', type: '', description: '' }
