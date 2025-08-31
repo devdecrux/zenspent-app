@@ -21,10 +21,8 @@ export const useUserStore = defineStore(
       isAuthenticated.value = false
       sessionStorage.removeItem('user')
       router.push('/login')
-      const appMode = import.meta.env.VITE_APP_MODE
-      if (appMode != null && appMode == 'development') {
-        loadCSRFToken()
-      }
+
+      loadCSRFToken()
 
       const loadSelectMenuDataStore = useSelectMenuDataStore()
       loadSelectMenuDataStore.clearLoadedData()
