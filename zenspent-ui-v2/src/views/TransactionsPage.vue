@@ -5,23 +5,9 @@ import type { PaginationResult } from '@/entities/PaginationResult.ts'
 import type { Transaction } from '@/entities/Transaction.ts'
 import TableComponent from '@/components/ztable/TableComponent.vue'
 import { transactionColumns } from '@/components/ztable/transaction-columns.ts'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils.ts'
@@ -96,11 +82,11 @@ const loadTableData = () => {
 const createTransaction = () => {
   axios.defaults.withXSRFToken = true
   axios.defaults.withCredentials = true
+  transaction.value.date = date.value ? date.value?.toString() : ''
   axios
     .post('/api/v1/transactions', transaction.value)
     .then((response) => {
       if (response.status === 201) {
-        console.log('motherfuckersss')
         // TODO: only add the new transaction to the list instead of reloading all data?
         loadTableData() // Refresh the table data
         // reset the account form
@@ -114,6 +100,7 @@ const createTransaction = () => {
           payer: { accountId: '', name: '' },
           user: { username: '', email: '', firstName: '', lastName: '' },
         }
+        date.value = undefined
         dialogState.value = false
       }
     })

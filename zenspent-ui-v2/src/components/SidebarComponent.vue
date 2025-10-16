@@ -112,18 +112,6 @@ const logout = () => {
       </SidebarGroup>
     </SidebarContent>
 
-    <!--    <SidebarGroup>-->
-    <!--      <SidebarGroupContent>-->
-    <!--        <SidebarMenu>-->
-    <!--          <SidebarMenuItem>-->
-    <!--            <SidebarMenuButton as-child>-->
-    <!--              <SidebarTrigger />-->
-    <!--            </SidebarMenuButton>-->
-    <!--          </SidebarMenuItem>-->
-    <!--        </SidebarMenu>-->
-    <!--      </SidebarGroupContent>-->
-    <!--    </SidebarGroup>-->
-
     <SidebarGroup>
       <SidebarGroupContent>
         <SidebarMenu>
@@ -161,8 +149,8 @@ const logout = () => {
           <DropdownMenu>
             <DropdownMenuTrigger as-child>
               <SidebarMenuButton size="lg">
-                <Avatar class="h-9 w-9 rounded-lg">
-                  <AvatarImage src="https://i.postimg.cc/63QFCgRj/IMG-5411.png" />
+                <Avatar class="h-10 w-8 rounded-lg">
+                  <AvatarImage src="https://i.postimg.cc/bJpXnKyw/IMG-5996.avif" />
                   <AvatarFallback class="rounded-lg border"> MV</AvatarFallback>
                 </Avatar>
                 <div class="grid flex-1 text-left text-sm leading-tight">
