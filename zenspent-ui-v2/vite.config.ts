@@ -20,7 +20,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // TODO: dynamic target based on environment variable
-        target: 'http://192.168.0.2/api',
+        target: 'http://192.168.0.78/api',
         changeOrigin: true,
         rewrite: (path) => path,
       },
