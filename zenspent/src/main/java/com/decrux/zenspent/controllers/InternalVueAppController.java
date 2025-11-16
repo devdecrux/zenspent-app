@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/internal")
+@RequestMapping("/v1/internal")
 public class InternalVueAppController {
 
     @GetMapping("/csrf-token")

@@ -9,7 +9,7 @@ RUN npm run build
 FROM maven:3.9.9-eclipse-temurin-21-alpine AS backend-builder
 WORKDIR /backend
 COPY /zenspent .
-COPY --from=frontend-builder /vue-app/frontend /backend/src/main/resources/static/frontend
+COPY --from=frontend-builder /vue-app/dist /backend/src/main/resources/static/frontend
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:21.0.7_6-jre-alpine-3.21
