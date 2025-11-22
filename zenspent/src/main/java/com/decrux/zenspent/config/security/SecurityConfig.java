@@ -2,6 +2,7 @@ package com.decrux.zenspent.config.security;
 
 import com.decrux.zenspent.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,11 +26,20 @@ public class SecurityConfig {
     private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
+    @Value("${app.security.csrf-cookie-path:}")
+    private String csrfCookiePath;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // Allow dev profile to relax cookie path to "/" so SPA at /frontend can read the CSRF token without a proxy rewrite
+        CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        if (this.csrfCookiePath != null && !this.csrfCookiePath.isBlank()) {
+            csrfTokenRepository.setCookiePath(this.csrfCookiePath);
+        }
+
         return http
                 .csrf(csrf -> csrf
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .csrfTokenRepository(csrfTokenRepository)
                         .csrfTokenRequestHandler(this.spaCsrfTokenRequestHandler))
                 .sessionManagement(session -> session.maximumSessions(1))
                 .formLogin(form -> form

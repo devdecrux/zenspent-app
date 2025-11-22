@@ -1,0 +1,39 @@
+http:
+  routers:
+    api-router:
+      rule: "PathPrefix(`/api`)"
+      entryPoints:
+        - web
+      service: api-service
+
+    frontend-router:
+      rule: "PathPrefix(`/frontend`)"
+      entryPoints:
+        - web
+      service: frontend-service
+
+    root-redirect:
+      rule: "Path(`/`)"
+      entryPoints:
+        - web
+      service: frontend-service
+      middlewares:
+        - redirect-to-frontend@file
+
+  middlewares:
+    redirect-to-frontend:
+      redirectRegex:
+        regex: "^/$"
+        replacement: "/frontend/"
+        permanent: false
+
+  services:
+    api-service:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:8081"
+
+    frontend-service:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:5173"
