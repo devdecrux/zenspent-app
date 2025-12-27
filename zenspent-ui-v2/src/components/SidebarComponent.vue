@@ -18,6 +18,7 @@ import {
   LogOut,
   RotateCw,
   Settings,
+  User,
   WalletMinimal,
 } from 'lucide-vue-next'
 import { Separator } from '@/components/ui/separator'
@@ -149,9 +150,11 @@ const logout = () => {
           <DropdownMenu>
             <DropdownMenuTrigger as-child>
               <SidebarMenuButton size="lg">
-                <Avatar class="h-10 w-8 rounded-lg">
-                  <AvatarImage src="https://i.postimg.cc/bJpXnKyw/IMG-5996.avif" />
-                  <AvatarFallback class="rounded-lg border"> MV</AvatarFallback>
+                <Avatar class="h-10 w-10 rounded-lg">
+                  <AvatarImage v-if="userStore.user?.avatar" :src="userStore.user.avatar" />
+                  <AvatarFallback class="rounded-lg border">
+                    userStore.user?.firstName + ' ' + userStore.user?.lastName
+                  </AvatarFallback>
                 </Avatar>
                 <div class="grid flex-1 text-left text-sm leading-tight">
                   <span class="truncate font-semibold">{{
@@ -164,6 +167,10 @@ const logout = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
+                <DropdownMenuItem v-on:click="router.push('/profile')">
+                  <User />
+                  Profile
+                </DropdownMenuItem>
                 <DropdownMenuItem v-on:click="logout">
                   <LogOut />
                   Log out

@@ -12,10 +12,6 @@ export const useSelectMenuDataStore = defineStore('select_menu_data', () => {
   const accountsGroupedByType = ref<Record<string, Account[]>>({})
 
   function loadTransactionTypes() {
-    console.log('Transaction types: ', transactionTypes.value)
-    if (transactionTypes.value.length > 0) {
-      return
-    }
     axios.defaults.withXSRFToken = true
     axios.defaults.withCredentials = true
     axios
@@ -28,17 +24,6 @@ export const useSelectMenuDataStore = defineStore('select_menu_data', () => {
       .catch((error) => {
         console.error('Error loading transaction types:', error)
       })
-  }
-
-  function groupAccountsByType(accountsList: Account[]) {
-    const grouped: Record<string, Account[]> = {}
-    accountTypes.value.forEach((type) => {
-      const filtered = accountsList.filter((account: Account) => type.value === account.type)
-      if (filtered.length > 0) {
-        grouped[type.value] = filtered
-      }
-    })
-    accountsGroupedByType.value = grouped
   }
 
   function loadAccountTypes() {
@@ -60,6 +45,12 @@ export const useSelectMenuDataStore = defineStore('select_menu_data', () => {
       })
   }
 
+  function clearLoadedData() {
+    transactionTypes.value = []
+    accountTypes.value = []
+    accounts.value = []
+  }
+
   function loadAccounts() {
     axios.defaults.withXSRFToken = true
     axios.defaults.withCredentials = true
@@ -68,7 +59,7 @@ export const useSelectMenuDataStore = defineStore('select_menu_data', () => {
       .then((response) => {
         if (response.status === 200) {
           accounts.value = response.data.content
-          console.log(accounts.value)
+          console.log('Accounts from backend', accounts.value)
           groupAccountsByType(accounts.value)
         }
       })
@@ -77,10 +68,15 @@ export const useSelectMenuDataStore = defineStore('select_menu_data', () => {
       })
   }
 
-  function clearLoadedData() {
-    transactionTypes.value = []
-    accountTypes.value = []
-    accounts.value = []
+  function groupAccountsByType(accountsList: Account[]) {
+    const grouped: Record<string, Account[]> = {}
+    accountTypes.value.forEach((type) => {
+      const filtered = accountsList.filter((account: Account) => type.value === account.type)
+      if (filtered.length > 0) {
+        grouped[type.value] = filtered
+      }
+    })
+    accountsGroupedByType.value = grouped
   }
 
   return {

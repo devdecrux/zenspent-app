@@ -1,17 +1,29 @@
 <script setup lang="ts">
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useSelectMenuDataStore } from '@/stores/select_menu_data.ts'
 import TableComponent from '@/components/ztable/TableComponent.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { PaginationResult } from '@/entities/PaginationResult.ts'
 import type { Account } from '@/entities/Account.ts'
 import axios from 'axios'
 import { accountColumns } from '@/components/ztable/account-columns.ts'
 
-const selectData = useSelectMenuDataStore()
+const selectMenuData = useSelectMenuDataStore()
 
 const dialogState = ref(false)
 
@@ -70,6 +82,10 @@ function handlePaginationUpdate(pageIndex: number, pageSize: number) {
   serverPageNumber.value = pageIndex
   serverPageSize.value = pageSize
 }
+
+onMounted(() => {
+  selectMenuData.loadAccountTypes()
+})
 </script>
 
 <template>
@@ -97,7 +113,7 @@ function handlePaginationUpdate(pageIndex: number, pageSize: number) {
             </SelectTrigger>
             <SelectContent>
               <SelectItem
-                v-for="type in selectData.accountTypes"
+                v-for="type in selectMenuData.accountTypes"
                 :value="type.value"
                 v-bind:key="type.value"
                 >{{ type.label }}

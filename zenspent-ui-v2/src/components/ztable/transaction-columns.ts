@@ -6,6 +6,34 @@ import type { TransactionParticipant } from '@/entities/TransactionParticipant.t
 import type { User } from '@/entities/User.ts'
 import { Edit, Trash2 } from 'lucide-vue-next'
 
+const amountColorBasedOnTransactionType = (transaction: Transaction) => {
+  switch (transaction.type) {
+    case 'TRANSFER':
+      return 'text-gray-500'
+    case 'WITHDRAWAL':
+      return 'text-red-600'
+    case 'INCOME':
+    case 'SALARY':
+    case 'REFUND':
+      return 'text-green-600'
+    default:
+      return ''
+  }
+}
+
+const amountSignBasedOnTransactionType = (transaction: Transaction) => {
+  switch (transaction.type) {
+    case 'WITHDRAWAL':
+      return '-'
+    case 'INCOME':
+    case 'SALARY':
+    case 'REFUND':
+      return '+'
+    default:
+      return ''
+  }
+}
+
 export const transactionColumns: ColumnDef<Transaction>[] = [
   {
     accessorKey: 'id',
@@ -35,12 +63,19 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     accessorKey: 'amount',
     header: () => h('div', { class: 'text-right' }, 'Amount'),
     cell: ({ row }) => {
-      const amount = row.getValue('amount') as bigint
+      const transaction = row.original
+      const amount = row.getValue('amount') as number
       const formattedAmount = new Intl.NumberFormat('bg-BG', {
         style: 'currency',
         currency: 'BGN',
       }).format(amount)
-      return h('div', { class: 'text-right font-bold' }, formattedAmount)
+      const amountSign = amountSignBasedOnTransactionType(transaction)
+      const amountClass = amountColorBasedOnTransactionType(transaction)
+      return h(
+        'div',
+        { class: `text-right font-bold ${amountClass}` },
+        `${amountSign}${formattedAmount}`,
+      )
     },
   },
   {

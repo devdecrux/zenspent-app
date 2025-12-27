@@ -1,13 +1,27 @@
 <script setup lang="ts">
 import axios from 'axios'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { PaginationResult } from '@/entities/PaginationResult.ts'
 import type { Transaction } from '@/entities/Transaction.ts'
 import TableComponent from '@/components/ztable/TableComponent.vue'
 import { transactionColumns } from '@/components/ztable/transaction-columns.ts'
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils.ts'
@@ -120,7 +134,12 @@ const df = new Intl.DateTimeFormat('bg-BG', {
   day: '2-digit',
 })
 
-const selectData = useSelectMenuDataStore()
+const selectMenuData = useSelectMenuDataStore()
+
+onMounted(() => {
+  selectMenuData.loadAccounts()
+  selectMenuData.loadTransactionTypes()
+})
 </script>
 
 <template>
@@ -138,7 +157,7 @@ const selectData = useSelectMenuDataStore()
             </SelectTrigger>
             <SelectContent>
               <SelectGroup
-                v-for="[type, accounts] in Object.entries(selectData.accountsGroupedByType)"
+                v-for="[type, accounts] in Object.entries(selectMenuData.accountsGroupedByType)"
                 :key="type"
               >
                 <SelectLabel class="font-medium">{{ type }}</SelectLabel>
@@ -154,7 +173,7 @@ const selectData = useSelectMenuDataStore()
             </SelectTrigger>
             <SelectContent>
               <SelectGroup
-                v-for="[type, accounts] in Object.entries(selectData.accountsGroupedByType)"
+                v-for="[type, accounts] in Object.entries(selectMenuData.accountsGroupedByType)"
                 :key="type"
               >
                 <SelectLabel class="font-medium">{{ type }}</SelectLabel>
@@ -173,7 +192,7 @@ const selectData = useSelectMenuDataStore()
             </SelectTrigger>
             <SelectContent>
               <SelectItem
-                v-for="type in selectData.transactionTypes"
+                v-for="type in selectMenuData.transactionTypes"
                 :value="type.value"
                 v-bind:key="type.value"
                 >{{ type.label }}

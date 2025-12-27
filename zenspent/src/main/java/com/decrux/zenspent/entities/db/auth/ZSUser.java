@@ -29,6 +29,7 @@ public class ZSUser implements UserDetails {
     private String email;
     private String firstName;
     private String lastName;
+    private String avatarPath;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<ZSUserRole> roles;

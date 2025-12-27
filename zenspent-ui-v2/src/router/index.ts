@@ -6,6 +6,7 @@ import NotFound from '@/views/NotFound.vue'
 import { useUserStore } from '@/stores/user.ts'
 import TransactionsPage from '@/views/TransactionsPage.vue'
 import AccountsPage from '@/views/AccountsPage.vue'
+import ProfileSettingsPage from '@/views/ProfileSettingsPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
       path: '/accounts',
       name: 'accounts',
       component: AccountsPage,
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfileSettingsPage,
     },
     // {
     //   path: '/subscriptions',
