@@ -9,29 +9,25 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  type SidebarProps,
+  type SidebarProps
 } from '@/components/ui/sidebar'
-import {
-  ArrowUpDown,
-  ChevronsUpDown,
-  Home,
-  LogOut,
-  RotateCw,
-  Settings,
-  User,
-  WalletMinimal,
-} from 'lucide-vue-next'
+import { ArrowUpDown, ChevronsUpDown, Home, LogOut, Monitor, Moon, Palette, RotateCw, Settings, Sun, User, WalletMinimal } from 'lucide-vue-next'
 import { Separator } from '@/components/ui/separator'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import { Icon } from '@iconify/vue'
 import { useColorMode } from '@vueuse/core'
 import { useUserStore } from '@/stores/user.ts'
 import axios from 'axios'
@@ -113,37 +109,6 @@ const logout = () => {
       </SidebarGroup>
     </SidebarContent>
 
-    <SidebarGroup>
-      <SidebarGroupContent>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger as-child>
-                <Button>
-                  <Icon
-                    icon="radix-icons:moon"
-                    class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-                  />
-                  <Icon
-                    icon="radix-icons:sun"
-                    class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-                  />
-                  <span class="sr-only">Toggle theme</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem v-on:click="mode = 'light'"> Light</DropdownMenuItem>
-                <DropdownMenuItem v-on:click="mode = 'dark'"> Dark</DropdownMenuItem>
-                <DropdownMenuItem v-on:click="mode = 'auto'"> System</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
-
-    <Separator />
-
     <SidebarFooter v-if="userStore.user != null">
       <SidebarMenu>
         <SidebarMenuItem>
@@ -167,15 +132,42 @@ const logout = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
+                <DropdownMenuItem
+                  class="text-destructive focus:text-destructive"
+                  v-on:click="logout"
+                >
+                  <LogOut class="text-destructive" />
+                  Log out
+                </DropdownMenuItem>
                 <DropdownMenuItem v-on:click="router.push('/profile')">
                   <User />
                   Profile
                 </DropdownMenuItem>
-                <DropdownMenuItem v-on:click="logout">
-                  <LogOut />
-                  Log out
-                </DropdownMenuItem>
               </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger class="flex items-center gap-2">
+                  <Palette class="size-4" />
+                  Theme
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuLabel>Theme</DropdownMenuLabel>
+                  <DropdownMenuRadioGroup v-model="mode">
+                    <DropdownMenuRadioItem value="light">
+                      <Sun class="size-4" />
+                      Light
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="dark">
+                      <Moon class="size-4" />
+                      Dark
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="auto">
+                      <Monitor class="size-4" />
+                      System
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
             </DropdownMenuContent>
           </DropdownMenu>
         </SidebarMenuItem>
