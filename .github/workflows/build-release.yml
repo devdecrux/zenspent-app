@@ -4,11 +4,6 @@ on:
   push:
     branches: [ develop ]
   workflow_dispatch:
-    inputs:
-      source_ref:
-        description: Git ref to build (branch, tag, or SHA)
-        required: false
-        default: main
 
 permissions:
   contents: write
@@ -19,8 +14,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.source_ref || 'main' }}
 
       - name: Set up Node.js 25
         uses: actions/setup-node@v4
