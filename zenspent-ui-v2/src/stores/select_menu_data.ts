@@ -28,7 +28,7 @@ export const useSelectMenuDataStore = defineStore('select_menu_data', () => {
 
   function loadAccountTypes() {
     console.log('Account types: ', accountTypes.value)
-    if (transactionTypes.value.length > 0) {
+    if (accountTypes.value.length > 0) {
       return
     }
     axios.defaults.withXSRFToken = true
@@ -38,6 +38,9 @@ export const useSelectMenuDataStore = defineStore('select_menu_data', () => {
       .then((response) => {
         if (response.status === 200) {
           accountTypes.value = response.data
+          if (accounts.value.length > 0) {
+            groupAccountsByType(accounts.value)
+          }
         }
       })
       .catch((error) => {
