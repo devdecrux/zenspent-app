@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem } from '@/components/ui/dropdown-menu'
+import {
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+} from '@/components/ui/dropdown-menu'
 import { Monitor, Moon, Sun } from 'lucide-vue-next'
 import { useColorMode } from '@vueuse/core'
 
