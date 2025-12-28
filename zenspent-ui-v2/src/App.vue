@@ -4,11 +4,14 @@ import { computed, onMounted } from 'vue'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import SidebarComponent from '@/components/SidebarComponent.vue'
 import { loadCSRFToken } from '@/utils/LoadCSRFToken'
+import { useColorMode } from '@vueuse/core'
 
 const route = useRoute()
 const isLoginOrRegistrationPage = computed(() => {
   return route.fullPath === '/registration' || route.fullPath === '/login'
 })
+
+useColorMode()
 
 onMounted(() => {
   loadCSRFToken()

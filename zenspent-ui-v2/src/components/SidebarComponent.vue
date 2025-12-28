@@ -11,16 +11,13 @@ import {
   SidebarMenuItem,
   type SidebarProps
 } from '@/components/ui/sidebar'
-import { ArrowUpDown, ChevronsUpDown, Home, LogOut, Monitor, Moon, Palette, RotateCw, Settings, Sun, User, WalletMinimal } from 'lucide-vue-next'
+import { ArrowUpDown, ChevronsUpDown, Home, LogOut, Palette, RotateCw, Settings, User, WalletMinimal } from 'lucide-vue-next'
 import { Separator } from '@/components/ui/separator'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -28,7 +25,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { useColorMode } from '@vueuse/core'
+import ThemeMenu from '@/components/ThemeMenu.vue'
 import { useUserStore } from '@/stores/user.ts'
 import axios from 'axios'
 import router from '@/router'
@@ -44,8 +41,6 @@ const routes = [
 const props = withDefaults(defineProps<SidebarProps>(), {
   collapsible: 'icon',
 })
-
-const mode = useColorMode()
 
 const userStore = useUserStore()
 
@@ -90,7 +85,7 @@ const logout = () => {
       </SidebarMenu>
     </SidebarHeader>
 
-    <Separator />
+    <Separator class="bg-[#8fc79c] dark:bg-border" />
 
     <SidebarContent>
       <SidebarGroup>
@@ -115,7 +110,7 @@ const logout = () => {
           <DropdownMenu>
             <DropdownMenuTrigger as-child>
               <SidebarMenuButton size="lg">
-                <Avatar class="h-10 w-10 rounded-lg">
+                <Avatar class="h-10 w-10 rounded-lg border border-border">
                   <AvatarImage v-if="userStore.user?.avatar" :src="userStore.user.avatar" />
                   <AvatarFallback class="rounded-lg border">
                     userStore.user?.firstName + ' ' + userStore.user?.lastName
@@ -133,10 +128,10 @@ const logout = () => {
             <DropdownMenuContent>
               <DropdownMenuGroup>
                 <DropdownMenuItem
-                  class="text-destructive focus:text-destructive"
+                  class="font-semibold text-destructive focus:text-destructive dark:text-red-400 dark:focus:text-red-400"
                   v-on:click="logout"
                 >
-                  <LogOut class="text-destructive" />
+                  <LogOut class="text-destructive dark:text-red-400" />
                   Log out
                 </DropdownMenuItem>
                 <DropdownMenuItem v-on:click="router.push('/profile')">
@@ -151,21 +146,7 @@ const logout = () => {
                   Theme
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
-                  <DropdownMenuLabel>Theme</DropdownMenuLabel>
-                  <DropdownMenuRadioGroup v-model="mode">
-                    <DropdownMenuRadioItem value="light">
-                      <Sun class="size-4" />
-                      Light
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="dark">
-                      <Moon class="size-4" />
-                      Dark
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="auto">
-                      <Monitor class="size-4" />
-                      System
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
+                  <ThemeMenu />
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
             </DropdownMenuContent>

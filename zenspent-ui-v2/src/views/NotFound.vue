@@ -1,10 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <section>
-    <div class="container flex items-center min-h-screen px-6 py-12 mx-auto">
-      <div class="flex flex-col items-center max-w-sm mx-auto text-center">
-        <p class="p-3 text-sm font-medium text-blue-500 rounded-full bg-blue-50 dark:bg-gray-800">
+  <section class="bg-background text-foreground">
+    <div class="container flex min-h-screen items-center px-6 py-12 mx-auto">
+      <div class="flex max-w-sm flex-col items-center text-center mx-auto">
+        <p class="rounded-full bg-secondary/60 p-3 text-sm font-medium text-foreground">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -20,16 +20,16 @@
             />
           </svg>
         </p>
-        <div class="flex flex-row text-2xl font-semibold text-black dark:text-white md:text-3xl">
+        <div class="flex flex-row text-2xl font-semibold md:text-3xl">
           <span>404 | Page not found</span>
         </div>
-        <p class="mt-4 text-gray-400">
+        <p class="mt-4 text-muted-foreground">
           The page you are looking for doesn't exist. Here are some helpful links:
         </p>
 
-        <div class="flex items-center w-full mt-6 gap-x-3 shrink-0 sm:w-auto">
+        <div class="mt-6 flex w-full shrink-0 items-center gap-x-3 sm:w-auto">
           <button
-            class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700"
+            class="flex w-1/2 items-center justify-center gap-x-2 rounded-lg border border-border bg-card px-5 py-2 text-sm text-card-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground sm:w-auto"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@
 
           <RouterLink
             to="/dashboard"
-            class="w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+            class="w-1/2 shrink-0 rounded-lg bg-primary px-5 py-2 text-sm tracking-wide text-primary-foreground transition-colors duration-200 hover:bg-primary/90 sm:w-auto"
           >
             Take me home
           </RouterLink>

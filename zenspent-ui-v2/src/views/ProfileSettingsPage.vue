@@ -66,7 +66,7 @@ const uploadAvatar = () => {
       </CardHeader>
       <CardContent>
         <div class="flex items-center gap-6">
-          <Avatar class="h-16 w-16 rounded-lg">
+          <Avatar class="h-16 w-16 rounded-lg border border-border">
             <AvatarImage v-if="userStore.user?.avatar" :src="userStore.user.avatar" />
             <AvatarFallback class="rounded-lg border">
               {{ userStore.user?.firstName }} {{ userStore.user?.lastName }}
@@ -90,7 +90,9 @@ const uploadAvatar = () => {
               @change="onFileChange"
             />
             <div class="flex items-center justify-between gap-3">
-              <span class="text-xs text-muted-foreground">
+              <span
+                class="text-xs text-muted-foreground rounded-md border border-[#7fbf9a] px-2 py-1 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08)] dark:border-[#2b5c6b] dark:shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]"
+              >
                 {{ selectedFile?.name || 'No file chosen' }}
               </span>
               <div class="flex items-center gap-2">
