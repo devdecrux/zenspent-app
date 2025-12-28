@@ -9,9 +9,19 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  type SidebarProps
+  type SidebarProps,
 } from '@/components/ui/sidebar'
-import { ArrowUpDown, ChevronsUpDown, Home, LogOut, Palette, RotateCw, Settings, User, WalletMinimal } from 'lucide-vue-next'
+import {
+  ArrowUpDown,
+  ChevronsUpDown,
+  Home,
+  LogOut,
+  Palette,
+  RotateCw,
+  Settings,
+  User,
+  WalletMinimal,
+} from 'lucide-vue-next'
 import { Separator } from '@/components/ui/separator'
 import {
   DropdownMenu,
@@ -22,13 +32,14 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import ThemeMenu from '@/components/ThemeMenu.vue'
 import { useUserStore } from '@/stores/user.ts'
 import axios from 'axios'
 import router from '@/router'
+import { initialsFromName } from '@/lib/utils/initials.ts'
 
 const routes = [
   { name: 'Dashboard', path: '/dashboard', icon: Home, enabled: true },
@@ -113,7 +124,7 @@ const logout = () => {
                 <Avatar class="h-10 w-10 rounded-lg border border-border">
                   <AvatarImage v-if="userStore.user?.avatar" :src="userStore.user.avatar" />
                   <AvatarFallback class="rounded-lg border">
-                    userStore.user?.firstName + ' ' + userStore.user?.lastName
+                    {{ initialsFromName(userStore.user?.firstName, userStore.user?.lastName) }}
                   </AvatarFallback>
                 </Avatar>
                 <div class="grid flex-1 text-left text-sm leading-tight">

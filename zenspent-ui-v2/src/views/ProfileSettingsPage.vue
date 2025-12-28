@@ -5,6 +5,7 @@ import { useUserStore } from '@/stores/user.ts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { initialsFromName } from '@/lib/utils/initials.ts'
 
 const userStore = useUserStore()
 const selectedFile = ref<File | null>(null)
@@ -69,7 +70,7 @@ const uploadAvatar = () => {
           <Avatar class="h-16 w-16 rounded-lg border border-border">
             <AvatarImage v-if="userStore.user?.avatar" :src="userStore.user.avatar" />
             <AvatarFallback class="rounded-lg border">
-              {{ userStore.user?.firstName }} {{ userStore.user?.lastName }}
+              {{ initialsFromName(userStore.user?.firstName, userStore.user?.lastName) }}
             </AvatarFallback>
           </Avatar>
           <div class="grid gap-1">
