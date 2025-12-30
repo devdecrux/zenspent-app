@@ -1,52 +1,33 @@
-# 🗺️ Project Roadmap
+# 🗺️ Introduction
 
-This document outlines the current state of the project and the planned roadmap.
-The goal is to build a **fully open-source, privacy-first budgeting application**
-that can be self-hosted and extended by the community.
-
----
-
-## ✅ Implemented
-
-### Core Architecture
-
-- Spring Boot backend
-- Vue.js frontend
-- PostgreSQL database
-- Traefik reverse proxy for local development
-- Separate frontend and backend services with unified entry point
-
-### Authentication & Security
-
-- Spring Security with session-based authentication
-- `JSESSIONID` cookie handling
-- CSRF protection using `XSRF-TOKEN`
-- Login flow implemented
-
-### Core Features
-
-- User accounts
-- Financial accounts
-- Transactions (income & expenses)
-- Automatic account balance updates based on transactions
+This document focuses on what is planned next. The goal is to build a **fully
+open-source, privacy-first budgeting application** that can be self-hosted and
+extended by the community, with an emphasis on the features below.
 
 ---
 
-## 🚧 Phase 1 — Stabilization & Foundations
+## 🧱 Phase 1 — Categories, Currencies & Brand
 
-### Infrastructure & Development Experience
+### Categories
 
-- [ ] Fix local development reverse-proxy setup (single host & port)
-- [ ] Improve cookie and CSRF handling in dev mode
-- [ ] Separate dev / prod configuration via Spring profiles & Vue envs
-- [x] Add API versioning (`/api/v1`)
-- [ ] Improve error handling & validation responses
+- [ ] Custom user-defined categories
+- [ ] Hierarchical categories (parent / child)
+- [ ] Category rules for faster assignment (by payee or note)
+- [ ] Category-based summaries and filters
 
-### Codebase Improvements
+### Currencies
 
-- [ ] Refactor domain model boundaries
-- [ ] Introduce consistent DTO & mapper strategy
-- [ ] Add basic integration tests
+- [ ] Base currency per budget
+- [ ] Account-level currency selection
+- [ ] Manual FX rate entry with effective date
+- [ ] Optional auto-updated FX rates
+- [ ] Consistent conversion for reports and balances
+
+### Branding
+
+- [ ] Logo creation
+- [ ] App icon set (web + mobile-ready)
+- [ ] Basic visual identity guidelines
 
 ---
 
@@ -56,51 +37,60 @@ that can be self-hosted and extended by the community.
 
 - [ ] Introduce `Budget` entity
 - [ ] Budget ownership model
-- [ ] Budget members with roles (owner, member)
+- [ ] Budget members with roles (owner and member)
 - [ ] Multi-budget support per user
+- [ ] Activity log for shared actions
 
 ### Permissions
 
 - [ ] Shared visibility of accounts & transactions
-- [ ] Owner-only modification rights
-- [ ] Member read-only access
+- [ ] Fine-grained permissions per role
+- [ ] Owner-only settings and billing controls
 
 ### User Experience
 
 - [ ] Invite members by email or invite code
-- [ ] Manage budget members
+- [ ] Accept / decline invitations
+- [ ] Manage budget members and roles
 - [ ] Leave budget functionality
+- [ ] Optional per-member visibility labels
 
 ---
 
-## 🗂️ Phase 3 — Categories
-
-### Category System
-
-- [ ] Default categories (Food, Rent, Utilities, etc.)
-- [ ] Custom user-defined categories
-- [ ] Hierarchical categories (parent / child)
-
-### Transactions
-
-- [ ] Assign category to transactions
-- [ ] Filter transactions by category
-- [ ] Category-based summaries
-
----
-
-## 🔁 Phase 4 — Recurring Transactions & Subscriptions
+## 🔁 Phase 3 — Recurring Transactions & Subscriptions
 
 ### Subscriptions
 
 - [ ] Subscription entity (amount, interval, account, category)
 - [ ] Monthly / yearly recurrence support
 - [ ] Upcoming payment tracking
+- [ ] Status: active, paused, canceled
+- [ ] Trial and intro-period support
 
 ### Automation
 
 - [ ] Scheduled job for auto-generating transactions
 - [ ] Monthly subscription cost overview
+- [ ] Reminder notifications for upcoming bills
+
+---
+
+## 📊 Phase 4 — Dashboard & Visualization
+
+### Visual Components
+
+- [ ] Income vs expenses charts
+- [ ] Category distribution charts
+- [ ] Cashflow timeline
+- [ ] Subscription cost overview
+- [ ] Currency-aware summaries
+
+### UX Improvements
+
+- [ ] Interactive filtering
+- [ ] Time-range selection
+- [ ] Saved dashboard presets
+- [ ] Responsive dashboard layout
 
 ---
 
@@ -127,72 +117,16 @@ that can be self-hosted and extended by the community.
 
 ---
 
-## 📊 Phase 6 — Insights & Recommendations
-
-### Analytics
-
-- [ ] Spending trends
-- [ ] Monthly summaries
-- [ ] Category comparisons
-
-### Smart Suggestions
-
-- [ ] Overspending alerts
-- [ ] Subscription reduction tips
-- [ ] Savings projections
-
----
-
-## 📈 Phase 7 — Dashboard & Visualization
-
-### Visual Components
-
-- [ ] Income vs expenses charts
-- [ ] Category distribution charts
-- [ ] Cashflow timeline
-- [ ] Subscription cost overview
-
-### UX Improvements
-
-- [ ] Interactive filtering
-- [ ] Time-range selection
-- [ ] Responsive dashboard layout
-
----
-
-## 🌍 Phase 8 — Open Source & Community
-
-### Developer Experience
-
-- [ ] Docker & docker-compose setup
-- [ ] OpenAPI / Swagger documentation
-- [ ] Example environment files
-- [ ] Contribution guidelines
-
-### Project Visibility
-
-- [ ] Public roadmap updates
-- [ ] Issue templates
-- [ ] Feature request guidelines
-
-### Sustainability
-
-- [ ] “Buy me a coffee” support
-- [ ] Optional sponsor links
-
 ---
 
 ## 🧭 Long-Term Ideas
 
-- AI-powered spending insights
-- Shared goals & saving targets
-- Mobile application
-- Multi-currency support
-- Offline-first mode
+- **Very important (not yet phased)**
+- [ ] AI-powered spending insights and anomaly detection
+- [ ] Overspending alerts with configurable thresholds
+- [ ] Subscription reduction tips and unused-service detection
+- [ ] Savings projections and goal forecasting
 
----
+### Additional Long-Term Ideas
 
-## 🤝 Contributing
-
-Contributions, ideas, and feedback are welcome!
-Check the issues section or open a discussion to get involved.
+- [ ] Mobile application for iOS and Android
