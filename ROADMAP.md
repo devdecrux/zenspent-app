@@ -19,7 +19,6 @@ extended by the community, with an emphasis on the features below.
 
 - [ ] Base currency per budget
 - [ ] Account-level currency selection
-- [ ] Manual FX rate entry with effective date
 - [ ] Optional auto-updated FX rates
 - [ ] Consistent conversion for reports and balances
 
